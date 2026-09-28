@@ -1,0 +1,57 @@
+# (예시 보고서) 원본 PDF를 받으면 제목·요약·목차·샘플을 실제 내용으로 바꿉니다.
+
+issue = 4
+date = 2026-10-05
+sectors = ["cross"]
+pages = 72
+language = "ko"
+price_krw = 300000
+price_usd = 220
+pay_korea = ""
+pay_global = ""
+sample = "2026-10-05-trend-global-2027-sample.pdf"
+example = true
+
+[ko]
+title = "트렌드 글로벌 2027: 6개 산업이 문턱을 넘는 해"
+cover_title = "트렌드 글로벌 2027"
+subtitle = "모빌리티·통신·전자·국방·금융·IT의 2027년 전환점과 체크리스트"
+summary = "2027년 한 해 동안 여섯 개 산업에서 무엇이 실제 매출로 이어지고 무엇이 기대에 그칠지 가려 봅니다. 분야별 핵심 일정을 한 장의 캘린더로 정리하고, 국내 기업 관점의 기회와 위험을 짚습니다."
+body = """
+LIMEN RESEARCH가 매주 추적해 온 여섯 개 산업을 한 권으로 묶은 연간 전망 보고서입니다.
+
+분야마다 2027년에 결정되는 표준, 규제, 예산, 제품 출시 일정을 모으고, 그중 산업의 흐름을 바꿀 만한 '문턱'을 골라 무엇을 준비해야 하는지 정리했습니다.
+
+### 이런 분께 권합니다
+- 2027년 사업계획과 투자 우선순위를 정리하는 전략·기획 담당자
+- 여러 산업을 함께 보는 투자자와 애널리스트
+- 새 분야 진출을 검토하는 경영진
+"""
+key_findings = [
+  "여섯 개 산업에서 2027년에 **실제 매출로 이어질 변화**와 기대에 그칠 변화를 구분",
+  "분야별 표준·규제·예산 일정을 한 장의 **2027 캘린더**로 정리",
+  "국내 기업이 놓치기 쉬운 기회와 위험을 분야별 체크리스트로 제시",
+]
+toc = [
+  "요약: 2027년을 가르는 신호",
+  "거시 환경: 금리·환율·공급망",
+  "모빌리티: AI 중심 차량 전환의 첫해",
+  "통신: 6G 표준화와 위성통신",
+  "전자·반도체: AI 반도체 수요의 다음 국면",
+  "국방: 국방 AI와 방산 수출",
+  "금융: 디지털 결제 인프라와 규제",
+  "IT·소프트웨어: 기업의 AI 에이전트 도입",
+  "2027 캘린더와 체크리스트",
+]
+
+[en]
+title = "Global Trends 2027: The Year Six Industries Cross the Threshold"
+cover_title = "Global Trends 2027"
+subtitle = "Turning points and checklists for mobility, telecom, electronics, defense, finance and IT"
+summary = "Which changes in six industries will turn into real revenue in 2027, and which will stay hype. Key dates in one calendar, with opportunities and risks for suppliers."
+key_findings = [
+  "Separating **revenue-bearing change** from hype across six industries",
+  "Standards, regulation and budget dates in one **2027 calendar**",
+  "Sector-by-sector checklists of opportunities and risks",
+]
+toc = ["Summary", "Macro", "Mobility", "Telecom", "Electronics", "Defense", "Finance", "IT & Software", "2027 calendar"]
