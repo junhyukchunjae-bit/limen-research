@@ -169,7 +169,8 @@ T = {
     },
 }
 
-DOC_PAGES = ["about", "terms", "refund", "privacy"]
+DOC_PAGES = ["about", "terms", "refund", "privacy", "thanks"]
+HIDDEN_PAGES = {"thanks"}          # 주소로만 들어가는 페이지 (목록·검색 제외)
 
 
 # ---------------------------------------------------------------------------
@@ -429,7 +430,7 @@ FONTS = ("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;90
          "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css")
 
 
-def page(ctx, title, body, description="", alt_path=None, checkout=False, edition=None):
+def page(ctx, title, body, description="", alt_path=None, checkout=False, edition=None, noindex=False):
     """완성된 HTML 문서. alt_path: 다른 언어의 같은 페이지 경로 (없으면 None)."""
     site = ctx.site
     full_title = f"{title} | LIMEN RESEARCH" if title else f"LIMEN RESEARCH | {site[ctx.lang]['tagline']}"
@@ -443,6 +444,7 @@ def page(ctx, title, body, description="", alt_path=None, checkout=False, editio
             alts += f'\n<link rel="alternate" hreflang="{l}" href="{esc(site["site_url"].rstrip("/") + "/" + pre + p)}">'
     lemon = '\n<script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>' if checkout else ""
     fonts = "".join(f'\n<link rel="stylesheet" href="{f}">' for f in FONTS)
+    robots = '\n<meta name="robots" content="noindex">' if noindex else ""
     return f"""<!doctype html>
 <html lang="{ctx.t['html_lang']}">
 <head>
@@ -450,7 +452,7 @@ def page(ctx, title, body, description="", alt_path=None, checkout=False, editio
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(full_title)}</title>
 <meta name="description" content="{esc(desc)}">
-<link rel="canonical" href="{esc(canonical)}">{alts}
+<link rel="canonical" href="{esc(canonical)}">{alts}{robots}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LIMEN RESEARCH">
 <meta property="og:title" content="{esc(full_title)}">
@@ -607,7 +609,7 @@ def render_report(ctx, r, has_alt):
   </div>
 </article>"""
     return page(ctx, lo["title"], body, description=lo.get("summary", ""), checkout=True,
-                alt_path=f"reports/{r['slug']}/" if has_alt else None)
+                alt_path=f"reports/{r['slug']}/" if has_alt else None, noindex=bool(r.get("unlisted")))
 
 
 def render_samples(ctx, reports):
@@ -633,11 +635,12 @@ def render_samples(ctx, reports):
 
 
 def render_doc(ctx, name, text, has_alt):
+    text = text.replace("{email}", ctx.site["email"])
     title = text.strip().splitlines()[0].lstrip("# ").strip()
     rest = "\n".join(text.strip().splitlines()[1:])
     body = f"""<section class="page-head wrap narrow"><h1>{esc(title)}</h1></section>
 <section class="wrap narrow block-tight prose doc">{md(rest)}</section>"""
-    return page(ctx, title, body, alt_path=f"{name}/" if has_alt else None)
+    return page(ctx, title, body, alt_path=f"{name}/" if has_alt else None, noindex=name in HIDDEN_PAGES)
 
 
 def render_404(site):
@@ -671,25 +674,27 @@ def build():
     if (CONTENT / "samples").exists():
         shutil.copytree(CONTENT / "samples", OUT / "samples", ignore=shutil.ignore_patterns(".*"))
 
-    written = []
+    listed = [r for r in reports if not r.get("unlisted")]   # 목록·홈·샘플에 나오는 보고서
+    written, hidden = [], []                                   # hidden: 사이트맵에서 빼는 페이지
     langs = site["languages"]
     for lang in langs:
         pre = "" if lang == langs[0] else f"{lang}/"
         C = lambda p: Ctx(site, lang, p)
-        written.append(write(pre + "index.html", render_home(C(""), reports)))
-        written.append(write(pre + "reports/index.html", render_archive(C("reports/"), reports)))
-        written.append(write(pre + "samples/index.html", render_samples(C("samples/"), reports)))
+        written.append(write(pre + "index.html", render_home(C(""), listed)))
+        written.append(write(pre + "reports/index.html", render_archive(C("reports/"), listed)))
+        written.append(write(pre + "samples/index.html", render_samples(C("samples/"), listed)))
         for r in reports:
             if lang in r:
                 has_alt = all(l in r for l in langs)
                 p = f"reports/{r['slug']}/"
-                written.append(write(pre + p + "index.html", render_report(C(p), r, has_alt)))
+                html_ = render_report(C(p), r, has_alt)
+                (hidden if r.get("unlisted") else written).append(write(pre + p + "index.html", html_))
         for name in DOC_PAGES:
             src = CONTENT / "pages" / f"{name}.{lang}.md"
             if src.exists():
                 has_alt = all((CONTENT / "pages" / f"{name}.{l}.md").exists() for l in langs)
-                written.append(write(pre + f"{name}/index.html",
-                                     render_doc(C(f"{name}/"), name, src.read_text(encoding="utf-8"), has_alt)))
+                html_ = render_doc(C(f"{name}/"), name, src.read_text(encoding="utf-8"), has_alt)
+                (hidden if name in HIDDEN_PAGES else written).append(write(pre + f"{name}/index.html", html_))
     write("404.html", render_404(site))
 
     base = site["site_url"].rstrip("/") + "/"
@@ -697,7 +702,8 @@ def build():
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n'
                          f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {base}sitemap.xml\n")
-    print(f"완료: 페이지 {len(written)}개, 보고서 {len(reports)}편, 언어 {', '.join(langs)} → {OUT.relative_to(ROOT)}/")
+    extra = f" (비공개 {len(hidden)}개 별도)" if hidden else ""
+    print(f"완료: 페이지 {len(written)}개{extra}, 보고서 {len(listed)}편, 언어 {', '.join(langs)} → {OUT.relative_to(ROOT)}/")
 
 
 if __name__ == "__main__":
