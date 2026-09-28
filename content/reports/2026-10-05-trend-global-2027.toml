@@ -13,6 +13,10 @@ sample = "2026-10-05-trend-global-2027-sample.pdf"
 example = true
 
 [ko]
+thresholds = [
+  "2027-01 | 2027년 정부 예산 집행 시작 (예시)",
+  "2027-Q4 | WRC-27 개최 (예시)",
+]
 title = "트렌드 글로벌 2027: 6개 산업이 문턱을 넘는 해"
 cover_title = "트렌드 글로벌 2027"
 subtitle = "모빌리티·통신·전자·국방·금융·IT의 2027년 전환점과 체크리스트"

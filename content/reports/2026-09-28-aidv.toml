@@ -15,6 +15,10 @@ example = true                 # 예시 표시. 실제 보고서에서는 이 �
 # draft = true                 # true 면 사이트에 나오지 않음
 
 [ko]
+thresholds = [
+  "2026-Q4 | 중앙집중형 E/E 아키텍처 양산 차종 확대 (예시)",
+  "2027-Q2 | 차세대 차량용 AI SoC 양산 (예시)",
+]
 title = "AI 중심 차량(AIDV): SDV 다음, 차량의 두뇌는 누가 갖는가"
 cover_title = "AI 중심 차량(AIDV)"
 subtitle = "소프트웨어 정의 차량 이후의 주도권 경쟁과 부품 생태계 재편"

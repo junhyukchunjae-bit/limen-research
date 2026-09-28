@@ -21,6 +21,8 @@ ROOT = Path(__file__).resolve().parent
 CONTENT = ROOT / "content"
 STATIC = ROOT / "static"
 OUT = ROOT / "_site"
+KST = dt.timezone(dt.timedelta(hours=9))
+TODAY = dt.datetime.now(KST).date()   # '문턱 일정'의 기준일: 빌드한 날 (한국 시간)
 
 esc = html.escape
 
@@ -30,29 +32,43 @@ esc = html.escape
 T = {
     "ko": {
         "html_lang": "ko",
+        "descriptor": "주간 기술산업 보고서",
         "nav_reports": "보고서",
         "nav_samples": "무료 샘플",
         "nav_about": "소개",
         "switch_label": "EN",
-        "cta_latest": "최신 보고서 보기",
-        "cta_samples": "무료 샘플 받기",
         "latest": "이번 호",
         "recent": "지난 호",
-        "view_all": "전체 목록",
-        "coverage": "다루는 분야",
-        "reports_count": "{n}편",
-        "how_title": "구매 안내",
-        "how_items": [
-            ("국내 결제.", "카드·간편결제·계좌이체. 결제 확인 후 영업일 24시간 이내에 이메일로 PDF를 보내 드립니다."),
-            ("해외 결제.", "해외 카드·PayPal. 결제 즉시 이메일로 PDF가 발송됩니다."),
-            ("회원가입은 없습니다.", "모든 보고서는 무료 샘플로 먼저 확인할 수 있습니다."),
-        ],
-        "b2b_title": "기업·기관 구매",
-        "b2b_text": "여러 부서가 함께 보는 라이선스, 정기 구매, 별도 결제 방식이 필요하면 문의해 주세요.",
-        "b2b_cta": "구매 문의하기",
+        "view_all": "전체 목록 {n}편",
+        "col_cover": "표지",
+        "col_report": "보고서",
+        "col_pages": "분량",
+        "col_price": "가격",
+        "col_sector": "분야",
+        "col_count": "편수",
+        "coverage_title": "분야별 발행 기록",
+        "coverage_note": "최근 {n}개 호",
+        "spec_title": "발행 안내",
+        "spec_rows": {
+            "cadence": ("발행", "매주 1편 · PDF · 한국어"),
+            "length": ("분량", "편당 {a}–{b}쪽"),
+            "price": ("가격", "편당 {krw}"),
+            "price_usd": " · 해외 결제 {usd}",
+            "pay": ("결제·발송", "국내: 카드·간편결제·계좌이체, 확인 후 영업일 24시간 이내 이메일 발송"),
+            "pay_usd": ". 해외: 카드·PayPal, 결제 즉시 자동 발송",
+            "account": ("회원가입", "없음. 결제할 때 적은 이메일로 PDF를 보냅니다"),
+            "samples": ("무료 샘플", "{n}편 공개"),
+            "b2b": ("기업·기관", "여러 부서 라이선스, 정기 구매, 별도 결제 방식"),
+        },
+        "samples_link": "샘플 보기",
+        "b2b_cta": "구매 문의",
         "b2b_subject": "[LIMEN RESEARCH] 기업·기관 구매 문의",
+        "thresholds": "문턱 일정",
+        "thresholds_home": "다가오는 문턱",
+        "thresholds_note": "보고서가 추적하는 표준·규제·예산·출시 일정",
+        "as_of": "기준",
         "archive_title": "보고서 목록",
-        "archive_sub": "지금까지 발행한 모든 보고서입니다. 분야별로 걸러 볼 수 있습니다.",
+        "archive_sub": "지금까지 발행한 보고서 {n}편. 분야별로 걸러 볼 수 있습니다.",
         "filter_all": "전체",
         "empty": "아직 발행된 보고서가 없습니다.",
         "pages_unit": "{n}쪽",
@@ -61,14 +77,15 @@ T = {
         "buy": "구매하기",
         "buy_soon": "판매 준비 중",
         "sample": "무료 샘플 PDF",
-        "details": "보고서 소개",
+        "details": "보고서 소개·목차",
         "f_date": "발행일",
         "f_length": "분량",
         "f_format": "형식",
+        "f_sector": "분야",
         "overview": "개요",
         "key_findings": "핵심 내용",
         "toc": "목차",
-        "purchase": "구매 정보",
+        "purchase": "구매",
         "price_global": "해외 결제 US${usd}",
         "pay_kr": "국내 결제하기",
         "pay_kr_apply": "국내 구매 신청",
@@ -78,17 +95,17 @@ T = {
                        "이름(회사명):\nPDF를 받을 이메일:\n"
                        "결제 방법 (카드 결제 링크 / 계좌이체):\n입금자명 (계좌이체 시):\n"
                        "증빙 필요 여부 (현금영수증 등):\n"),
-        "purchase_notes": [
-            "회원가입 없이 구매합니다",
-            "국내 결제: 카드·간편결제·계좌이체. 결제 확인 후 영업일 24시간 이내 이메일로 PDF 발송",
-            "해외 결제: 해외 카드·PayPal(USD). 결제 즉시 이메일로 PDF 자동 발송",
-            "디지털 상품 특성상 발송 후에는 청약철회가 제한됩니다",
+        "order_terms": [
+            ("국내 결제", "카드·간편결제·계좌이체. 결제 확인 후 영업일 24시간 이내 이메일로 PDF 발송"),
+            ("해외 결제", "해외 카드·PayPal(USD). 결제 즉시 이메일로 PDF 자동 발송"),
+            ("회원가입", "필요 없음"),
+            ("청약철회", "디지털 상품 특성상 발송 후에는 제한됩니다"),
         ],
-        "refund_link": "환불정책 보기",
+        "refund_link": "환불정책",
+        "b2b_title": "기업·기관 구매",
         "samples_title": "무료 샘플",
         "samples_sub": "보고서의 일부를 미리 읽어 보세요. 구매 전에 분석의 깊이와 형식을 확인할 수 있습니다.",
         "samples_empty": "공개된 샘플이 아직 없습니다.",
-        "sample_of": "{title} 샘플",
         "example": "예시",
         "terms": "이용약관",
         "refund": "환불정책",
@@ -104,56 +121,71 @@ T = {
     },
     "en": {
         "html_lang": "en",
+        "descriptor": "Weekly technology industry reports",
         "nav_reports": "Reports",
         "nav_samples": "Free samples",
         "nav_about": "About",
         "switch_label": "한국어",
-        "cta_latest": "See the latest report",
-        "cta_samples": "Get a free sample",
         "latest": "This issue",
         "recent": "Past issues",
-        "view_all": "All reports",
-        "coverage": "Coverage",
-        "reports_count": "{n} reports",
-        "how_title": "How to buy",
-        "how_items": [
-            ("Checkout.", "Pay by card or PayPal. No account needed."),
-            ("Delivery.", "A PDF download link is emailed right after payment."),
-            ("Samples.", "Every report has a free sample to read first."),
-        ],
-        "b2b_title": "Team & enterprise purchases",
-        "b2b_text": "Need a license for several teams, recurring purchases or another payment method? Get in touch.",
+        "view_all": "All {n} reports",
+        "col_cover": "Cover",
+        "col_report": "Report",
+        "col_pages": "Length",
+        "col_price": "Price",
+        "col_sector": "Sector",
+        "col_count": "Issues",
+        "coverage_title": "Coverage by sector",
+        "coverage_note": "Last {n} issues",
+        "spec_title": "Publication details",
+        "spec_rows": {
+            "cadence": ("Frequency", "One report a week · PDF"),
+            "length": ("Length", "{a}–{b} pages per report"),
+            "price": ("Price", "{usd} per report"),
+            "price_usd": "",
+            "pay": ("Payment", "Card or PayPal. The PDF link is emailed right after payment"),
+            "pay_usd": "",
+            "account": ("Account", "None needed"),
+            "samples": ("Free samples", "{n} available"),
+            "b2b": ("Teams", "Multi-team licences, recurring purchases, other payment methods"),
+        },
+        "samples_link": "See samples",
         "b2b_cta": "Contact us",
         "b2b_subject": "[LIMEN RESEARCH] Team purchase inquiry",
+        "thresholds": "Threshold dates",
+        "thresholds_home": "Upcoming thresholds",
+        "thresholds_note": "Standards, regulation, budget and launch dates our reports track",
+        "as_of": "as of",
         "archive_title": "Report archive",
-        "archive_sub": "Every report we have published. Filter by sector.",
+        "archive_sub": "{n} reports published so far. Filter by sector.",
         "filter_all": "All",
         "empty": "No reports published yet.",
-        "pages_unit": "{n} pages",
+        "pages_unit": "{n} pp.",
         "lang_ko": "Korean",
         "lang_en": "English",
         "buy": "Buy now",
         "buy_soon": "Coming soon",
         "sample": "Free sample (PDF)",
-        "details": "About this report",
+        "details": "Overview and contents",
         "f_date": "Published",
         "f_length": "Length",
         "f_format": "Format",
+        "f_sector": "Sector",
         "overview": "Overview",
         "key_findings": "Key findings",
         "toc": "Contents",
         "purchase": "Purchase",
-        "purchase_notes": [
-            "No account needed, just your email",
-            "PDF download link sent right after payment",
-            "Prices are charged in US dollars",
-            "As a digital product, sales are final once delivered",
+        "order_terms": [
+            ("Checkout", "Card or PayPal, in US dollars"),
+            ("Delivery", "PDF download link emailed right after payment"),
+            ("Account", "Not needed"),
+            ("Refunds", "Sales are final once the PDF is delivered"),
         ],
         "refund_link": "Refund policy",
+        "b2b_title": "Team purchases",
         "samples_title": "Free samples",
         "samples_sub": "Read part of a report before you buy to see the depth and format of our analysis.",
         "samples_empty": "No samples published yet.",
-        "sample_of": "Sample of {title}",
         "example": "Example",
         "terms": "Terms",
         "refund": "Refunds",
@@ -204,6 +236,12 @@ def load_reports(site):
         sample = r.get("sample", "")
         if sample and not sample.startswith("http") and not (CONTENT / "samples" / sample).exists():
             raise SystemExit(f"{path.name}: 샘플 파일 content/samples/{sample} 이 없습니다")
+        cover_img = r.get("cover_image", "")
+        if cover_img and not cover_img.startswith("http") and not (CONTENT / "covers" / cover_img).exists():
+            raise SystemExit(f"{path.name}: 표지 이미지 content/covers/{cover_img} 이 없습니다")
+        for lang in ("ko", "en"):
+            for line in r.get(lang, {}).get("thresholds", []):
+                parse_period(line.partition("|")[0], path.name)
         reports.append(r)
     reports.sort(key=lambda r: (r["date"], r.get("issue", 0)), reverse=True)
     return reports
@@ -254,8 +292,17 @@ def issue_no(r):
     return f"No. {r.get('issue', 0):03d}"
 
 
+def num(s):
+    """숫자·호수·날짜·가격: 고정폭 숫자(tabular). Plex Sans KR은 기본 숫자가 고정폭이다."""
+    return f'<span class="num">{s}</span>'
+
+
 def sector_label(site, key, lang):
     return site["sector_map"][key][lang]
+
+
+def sector_code(site, key):
+    return site["sector_map"][key].get("code") or key[:3].upper()
 
 
 def korea_on(ctx, r):
@@ -264,24 +311,67 @@ def korea_on(ctx, r):
             and bool(r.get("price_krw")))
 
 
-def price_html(ctx, r, big=False):
+def price_html(ctx, r, big=False, ref=True):
     usd = r.get("price_usd")
     if korea_on(ctx, r):
         main = f"₩{r['price_krw']:,}"
-        ref = ""
-        if usd and r.get("pay_global"):
-            ref = f'<span class="price-ref">{esc(ctx.t["price_global"].format(usd=format(usd, ",")))}</span>'
+        ref_html = ""
+        if ref and usd and r.get("pay_global"):
+            ref_html = f'<span class="price-ref">{esc(ctx.t["price_global"].format(usd=format(usd, ",")))}</span>'
     elif usd:
-        main, ref = f"US${usd:,}", ""
+        main, ref_html = f"US${usd:,}", ""
     else:
         return ""
     cls = "price price-big" if big else "price"
-    return f'<span class="{cls}"><span class="price-main">{main}</span>{ref}</span>'
+    return f'<span class="{cls}"><span class="price-main">{main}</span>{ref_html}</span>'
 
 
 def mailto(site, subject, body=""):
     url = f"mailto:{site['email']}?subject={quote(subject)}"
     return url + (f"&body={quote(body)}" if body else "")
+
+
+def file_size(r):
+    """샘플 PDF 용량 표시 (예: 373 KB). 외부 링크면 빈 문자열."""
+    s = r.get("sample", "")
+    if not s or s.startswith("http"):
+        return ""
+    n = (CONTENT / "samples" / s).stat().st_size
+    return f"{n / 1048576:.1f} MB" if n >= 1048576 else f"{max(1, round(n / 1024))} KB"
+
+
+PERIOD = re.compile(r"^(\d{4})(?:-(\d{2})(?:-(\d{2}))?|-Q([1-4]))?$")
+
+
+def parse_period(s, where=""):
+    """'2027-06', '2027-06-30', '2027-Q2', '2027' → (시작일, 끝날, 표시 문자열)"""
+    m = PERIOD.match(s.strip())
+    if not m:
+        raise SystemExit(f"{where}: 문턱 일정 날짜 '{s.strip()}' 형식 오류 (예: 2027-06, 2027-06-30, 2027-Q2)")
+    y, mo, d, q = m.groups()
+    y = int(y)
+
+    def month_end(yy, mm):
+        return dt.date(yy + mm // 12, mm % 12 + 1, 1) - dt.timedelta(days=1)
+
+    if q:
+        q = int(q)
+        return dt.date(y, 3 * q - 2, 1), month_end(y, 3 * q), f"{y} Q{q}"
+    if d:
+        day = dt.date(y, int(mo), int(d))
+        return day, day, f"{y}.{mo}.{d}"
+    if mo:
+        return dt.date(y, int(mo), 1), month_end(y, int(mo)), f"{y}.{mo}"
+    return dt.date(y, 1, 1), dt.date(y, 12, 31), str(y)
+
+
+def thresholds_of(ctx, r):
+    items = []
+    for line in r.get(ctx.lang, {}).get("thresholds", []):
+        when, _, what = line.partition("|")
+        start, end, label = parse_period(when)
+        items.append({"start": start, "end": end, "label": label, "text": what.strip(), "r": r})
+    return sorted(items, key=lambda x: (x["start"], x["end"]))
 
 
 class Ctx:
@@ -315,30 +405,47 @@ def report_url(ctx, r):
     return ctx.url(f"reports/{r['slug']}/")
 
 
-def sectors_text(ctx, r, sep=" / "):
+def sectors_text(ctx, r, sep=" · "):
     return sep.join(sector_label(ctx.site, k, ctx.lang) for k in r.get("sectors", []))
 
 
 def example_mark(ctx, r):
-    return f' <span class="example">[{ctx.t["example"]}]</span>' if r.get("example") else ""
+    return f'<span class="example">[{ctx.t["example"]}]</span>' if r.get("example") else ""
 
 
-def kicker(ctx, r, lead=""):
-    """'이번 호 · No. 003 · 2026.09.28 · 모빌리티' 같은 한 줄 머리글."""
-    parts = [lead, issue_no(r), fmt_date(r["date"], ctx.lang), sectors_text(ctx, r)]
-    return f'<p class="kicker">{" · ".join(esc(p) for p in parts if p)}{example_mark(ctx, r)}</p>'
+def docline(ctx, r, lead="", pages=False):
+    """'이번 호  No. 004  2026.10.05  종합  72쪽' — 문서 머리 한 줄. 구분 기호 대신 간격."""
+    parts = []
+    if lead:
+        parts.append(f'<span class="now">{esc(lead)}</span>')
+    parts.append(f'<span class="num id">{issue_no(r)}</span>')
+    parts.append(num(fmt_date(r["date"], ctx.lang)))
+    parts.append(f"<span>{esc(sectors_text(ctx, r))}</span>")
+    if pages and r.get("pages"):
+        parts.append(f"<span>{esc(ctx.t['pages_unit'].format(n=r['pages']))}</span>")
+    return f'<p class="docline">{"".join(parts)}{example_mark(ctx, r)}</p>'
 
 
 def cover(ctx, r, cls=""):
-    """보고서 앞표지. 이미지 없이 CSS로 그린다."""
+    """보고서 앞표지 (A4 비율). 실제 PDF 첫 장 이미지가 있으면(cover_image) 그걸 쓴다.
+    이미지 없이 그릴 때: 머리띠 · 제목 · 문턱선 위에 선 호수 · 7칸 분야 색인 · 발행일/쪽수."""
     lo = r.get(ctx.lang, {})
-    first = r["sectors"][0] if r.get("sectors") else None
-    color = ctx.site["sector_map"][first]["color"] if first else "#888888"
+    img = r.get("cover_image", "")
+    if img:
+        src = img if img.startswith("http") else ctx.root + "covers/" + img
+        return f'<div class="cover {cls}"><img src="{esc(src)}" alt="" loading="lazy"></div>'
     title = lo.get("cover_title") or lo.get("title", "")
-    return f"""<div class="cover {cls}" style="--sector:{esc(color)}" aria-hidden="true">
-  <div class="cover-head"><span>LIMEN RESEARCH</span><span>{issue_no(r)}</span></div>
-  <div class="cover-title">{esc(title)}</div>
-  <div class="cover-foot"><span>{esc(sectors_text(ctx, r, " · "))}</span><span>{fmt_date(r["date"], ctx.lang)}</span></div>
+    on = set(r.get("sectors", []))
+    cells = "".join(f'<span class="{"on" if k in on else ""}">{esc(sector_code(ctx.site, k))}</span>'
+                    for k in ctx.site["sector_map"])
+    pages = ctx.t["pages_unit"].format(n=r["pages"]) if r.get("pages") else ""
+    return f"""<div class="cover {cls}" aria-hidden="true">
+  <div class="cv-head"><span>LIMEN RESEARCH</span><span class="num">{issue_no(r)}</span></div>
+  <div class="cv-title">{esc(title)}</div>
+  <div class="cv-no">{r.get('issue', 0):03d}</div>
+  <div class="cv-sill"></div>
+  <div class="cv-cells">{cells}</div>
+  <div class="cv-foot"><span>{fmt_date(r["date"], ctx.lang)}</span><span>{esc(pages)}</span></div>
 </div>"""
 
 
@@ -373,6 +480,15 @@ def buy_buttons(ctx, r, block=False, primary_only=False):
     return "".join(out)
 
 
+def sample_button(ctx, r, block=False):
+    if not r.get("sample"):
+        return ""
+    size = file_size(r)
+    size_html = f' <span class="num size">{size}</span>' if size else ""
+    b = " btn-block" if block else ""
+    return f'<a class="btn btn-line{b}" href="{esc(ctx.sample_url(r))}">{ctx.t["sample"]}{size_html}</a>'
+
+
 def nav_links(ctx, alt_path):
     site, lang = ctx.site, ctx.lang
     nav = [("reports/", ctx.t["nav_reports"]), ("samples/", ctx.t["nav_samples"]), ("about/", ctx.t["nav_about"])]
@@ -385,21 +501,12 @@ def nav_links(ctx, alt_path):
     return links
 
 
-def header(ctx, alt_path, edition=None):
-    """edition 이 있으면 홈용 큰 제호(마스트헤드), 없으면 한 줄 머리."""
-    nav = nav_links(ctx, alt_path)
-    if edition is not None:
-        return f"""<header class="masthead">
-  <div class="wrap">
-    <div class="mast-bar"><span>{esc(edition)}</span><nav class="nav">{nav}</nav></div>
-    <a class="mast-brand" href="{ctx.url()}">LIMEN RESEARCH</a>
-    <p class="mast-tag">{esc(ctx.site[ctx.lang]["tagline"])}</p>
-  </div>
-</header>"""
-    return f"""<header class="topbar">
-  <div class="wrap topbar-inner">
-    <a class="brand" href="{ctx.url()}">LIMEN RESEARCH</a>
-    <nav class="nav">{nav}</nav>
+def header(ctx, alt_path):
+    """모든 페이지 같은 한 줄 머리. 큰 제호 없음."""
+    return f"""<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="{ctx.url()}"><span class="brand-name">LIMEN RESEARCH</span><span class="brand-desc">{esc(ctx.t['descriptor'])}</span></a>
+    <nav class="nav">{nav_links(ctx, alt_path)}</nav>
   </div>
 </header>"""
 
@@ -407,30 +514,33 @@ def header(ctx, alt_path, edition=None):
 def footer(ctx):
     site, tt = ctx.site, ctx.t
     biz = site.get("business", {})
-    rows = [f"{esc(tt['biz'][k])} {esc(str(v))}" for k, v in biz.items() if v and k in tt["biz"]]
-    biz_html = f'<p>{" · ".join(rows)}</p>' if rows else ""
-    year = dt.date.today().year
-    return f"""<footer class="site-footer">
-  <div class="wrap">
-    <div class="foot-top">
-      <a class="brand" href="{ctx.url()}">LIMEN RESEARCH</a>
-      <nav class="foot-nav">
-        <a href="{ctx.url('terms/')}">{tt['terms']}</a>
-        <a href="{ctx.url('refund/')}">{tt['refund']}</a>
-        <a href="{ctx.url('privacy/')}">{tt['privacy']}</a>
-        <a href="mailto:{esc(site['email'])}">{esc(site['email'])}</a>
-      </nav>
+    rows = "".join(f"<p>{esc(tt['biz'][k])} {esc(str(v))}</p>" for k, v in biz.items() if v and k in tt["biz"])
+    year = TODAY.year
+    return f"""<footer class="site-foot">
+  <div class="wrap foot-grid">
+    <div>
+      <a class="brand" href="{ctx.url()}"><span class="brand-name">LIMEN RESEARCH</span></a>
+      <p>{esc(site[ctx.lang]["tagline"])}</p>
     </div>
-    <div class="foot-bottom">{biz_html}<p>© {year} LIMEN RESEARCH. {esc(site[ctx.lang]["tagline"])}</p></div>
+    <nav class="foot-nav">
+      <a href="{ctx.url('about/')}">{tt['nav_about']}</a>
+      <a href="{ctx.url('terms/')}">{tt['terms']}</a>
+      <a href="{ctx.url('refund/')}">{tt['refund']}</a>
+      <a href="{ctx.url('privacy/')}">{tt['privacy']}</a>
+    </nav>
+    <div class="foot-contact">
+      <a href="mailto:{esc(site['email'])}">{esc(site['email'])}</a>
+      {rows}
+      <p class="num">© {year} LIMEN RESEARCH</p>
+    </div>
   </div>
 </footer>"""
 
 
-FONTS = ("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;900&display=swap",
-         "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css")
+FONTS = "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap"
 
 
-def page(ctx, title, body, description="", alt_path=None, checkout=False, edition=None, noindex=False):
+def page(ctx, title, body, description="", alt_path=None, checkout=False, noindex=False):
     """완성된 HTML 문서. alt_path: 다른 언어의 같은 페이지 경로 (없으면 None)."""
     site = ctx.site
     full_title = f"{title} | LIMEN RESEARCH" if title else f"LIMEN RESEARCH | {site[ctx.lang]['tagline']}"
@@ -443,7 +553,6 @@ def page(ctx, title, body, description="", alt_path=None, checkout=False, editio
             pre = "" if l == site["languages"][0] else f"{l}/"
             alts += f'\n<link rel="alternate" hreflang="{l}" href="{esc(site["site_url"].rstrip("/") + "/" + pre + p)}">'
     lemon = '\n<script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>' if checkout else ""
-    fonts = "".join(f'\n<link rel="stylesheet" href="{f}">' for f in FONTS)
     robots = '\n<meta name="robots" content="noindex">' if noindex else ""
     return f"""<!doctype html>
 <html lang="{ctx.t['html_lang']}">
@@ -458,15 +567,17 @@ def page(ctx, title, body, description="", alt_path=None, checkout=False, editio
 <meta property="og:title" content="{esc(full_title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{esc(canonical)}">
-<meta name="theme-color" content="#f5f2ea">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101316" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="{ctx.asset('favicon.svg')}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>{fonts}
+<link rel="stylesheet" href="{FONTS}">
 <link rel="stylesheet" href="{ctx.asset('site.css')}">
 <script src="{ctx.asset('site.js')}" defer></script>{lemon}
 </head>
 <body>
-{header(ctx, alt_path, edition)}
+{header(ctx, alt_path)}
 <main>
 {body}
 </main>
@@ -480,131 +591,223 @@ def page(ctx, title, body, description="", alt_path=None, checkout=False, editio
 # 페이지들
 # ---------------------------------------------------------------------------
 def entry(ctx, r):
-    """목록 한 줄: 호수 · 날짜 | 분야 · 제목 · 요약 | 가격"""
+    """목록 한 줄: 표지 | 문서 머리 · 제목 · 요약 | 분량 | 가격"""
     lo = r[ctx.lang]
+    pages = ctx.t["pages_unit"].format(n=r["pages"]) if r.get("pages") else ""
     return f"""<li class="entry" data-sectors="{' '.join(r.get('sectors', []))}">
-  <div class="entry-no"><span>{issue_no(r)}</span><span>{fmt_date(r['date'], ctx.lang)}</span></div>
+  <a class="entry-cover" href="{report_url(ctx, r)}" tabindex="-1">{cover(ctx, r, 'cover-xs')}</a>
   <div class="entry-main">
-    <p class="entry-sectors">{esc(sectors_text(ctx, r))}{example_mark(ctx, r)}</p>
+    {docline(ctx, r)}
     <h3><a href="{report_url(ctx, r)}">{esc(lo['title'])}</a></h3>
-    <p>{esc(lo.get('summary', ''))}</p>
+    <p class="entry-sum">{esc(lo.get('summary', ''))}</p>
   </div>
-  <div class="entry-price">{price_html(ctx, r)}</div>
+  <p class="entry-pages num">{esc(pages)}</p>
+  <p class="entry-price">{price_html(ctx, r, ref=False)}</p>
 </li>"""
+
+
+def entries_head(ctx):
+    t = ctx.t
+    return (f'<div class="entries-head" aria-hidden="true"><span>{t["col_cover"]}</span><span>{t["col_report"]}</span>'
+            f'<span>{t["col_pages"]}</span><span>{t["col_price"]}</span></div>')
+
+
+def threshold_list(ctx, items, home=False):
+    """문턱 일정 표. 기준일(빌드한 날) 자리에 '지금' 선을 끼워 지난 일정과 다가올 일정을 가른다."""
+    now = (f'<li class="th-now"><span class="num">{fmt_date(TODAY, ctx.lang)}</span>'
+           f'<span>{ctx.t["as_of"]}</span></li>')
+    rows, placed = [], False
+    for it in items:
+        if not placed and it["end"] >= TODAY:
+            rows.append(now)
+            placed = True
+        past = " is-past" if it["end"] < TODAY else ""
+        extra = ""
+        if home:
+            r = it["r"]
+            first = r["sectors"][0] if r.get("sectors") else ""
+            extra = (f'<span class="th-sector">{esc(sector_label(ctx.site, first, ctx.lang)) if first else ""}</span>')
+            ref = f'<a class="th-ref num" href="{report_url(ctx, r)}">{issue_no(r)}</a>'
+        else:
+            ref = ""
+        rows.append(f'<li class="th{past}"><span class="th-date num">{esc(it["label"])}</span>{extra}'
+                    f'<span class="th-text">{inline(it["text"])}</span>{ref}</li>')
+    if not placed:
+        rows.append(now)
+    cls = "thresholds thresholds-home" if home else "thresholds"
+    return f'<ol class="{cls}">{"".join(rows)}</ol>'
+
+
+def coverage_matrix(ctx, reports, limit=8):
+    """분야 × 최근 호 표. 채운 칸 = 그 호가 다룬 분야."""
+    cols = sorted(reports, key=lambda r: (r["date"], r.get("issue", 0)))[-limit:]
+    head = "".join(f'<th scope="col"><a class="num" href="{report_url(ctx, r)}" '
+                   f'title="{esc(issue_no(r) + " " + r[ctx.lang]["title"])}">{r.get("issue", 0):03d}</a></th>'
+                   for r in cols)
+    rows = []
+    for k, sec in ctx.site["sector_map"].items():
+        n = sum(k in r.get("sectors", []) for r in reports)
+        if not n:                       # 아직 다룬 적 없는 분야는 빈 줄로 보여 주지 않는다
+            continue
+        cells = "".join('<td><span class="on" role="img" aria-label="' + esc(issue_no(r)) + '"></span></td>'
+                        if k in r.get("sectors", []) else '<td><span class="off"></span></td>' for r in cols)
+        rows.append(f'<tr><th scope="row"><a href="{ctx.url("reports/")}?sector={k}">{esc(sec[ctx.lang])}</a></th>'
+                    f'{cells}<td class="count num">{n}</td></tr>')
+    return (f'<table class="matrix"><thead><tr><th scope="col">{ctx.t["col_sector"]}</th>{head}'
+            f'<th scope="col" class="count">{ctx.t["col_count"]}</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table>')
+
+
+def pub_spec(ctx, reports):
+    """발행 안내 표 (예전의 '구매 안내'·'기업·기관 구매' 단을 대신한다). 숫자는 데이터에서 계산."""
+    t, rows = ctx.t, []
+    S = t["spec_rows"]
+    rows.append(S["cadence"])
+    pages = [r["pages"] for r in reports if r.get("pages")]
+    if pages:
+        rows.append((S["length"][0], S["length"][1].format(a=min(pages), b=max(pages))))
+    latest = reports[0] if reports else {}
+    krw, usd = latest.get("price_krw"), latest.get("price_usd")
+    global_ok = any(r.get("pay_global") for r in reports)      # 해외 결제 링크가 실제로 있을 때만 적는다
+    if krw or usd:
+        v = S["price"][1].format(krw=f"₩{krw:,}" if krw else "", usd=f"US${usd:,}" if usd else "")
+        if global_ok and usd and S["price_usd"]:
+            v += S["price_usd"].format(usd=f"US${usd:,}")
+        rows.append((S["price"][0], v))
+    rows.append((S["pay"][0], S["pay"][1] + (S["pay_usd"] if global_ok else "")))
+    rows.append(S["account"])
+    n = sum(1 for r in reports if r.get("sample"))
+    if n:
+        rows.append((S["samples"][0], f'{esc(S["samples"][1].format(n=n))} · '
+                                      f'<a href="{ctx.url("samples/")}">{t["samples_link"]}</a>'))
+    rows.append((S["b2b"][0], f'{esc(S["b2b"][1])} · <a href="{esc(mailto(ctx.site, t["b2b_subject"]))}">{t["b2b_cta"]}</a>'))
+    body = "".join(f"<dt>{esc(k)}</dt><dd>{v if '<a ' in v else esc(v)}</dd>" for k, v in rows)
+    return f'<dl class="spec">{body}</dl>'
 
 
 def render_home(ctx, reports):
     site, tt, lang = ctx.site, ctx.t, ctx.lang
     mine = [r for r in reports if lang in r]
-    edition = site[lang]["eyebrow"]
     lead = ""
     if mine:
         r = mine[0]
         lo = r[lang]
-        edition = f"{issue_no(r)} · {fmt_date(r['date'], lang)}"
-        sample = (f'<a class="text-link" href="{esc(ctx.sample_url(r))}">{tt["sample"]} →</a>'
-                  if r.get("sample") else "")
-        lead = f"""<section class="lead wrap">
+        findings = "".join(f"<li><span>{inline(x)}</span></li>" for x in lo.get("key_findings", [])[:3])
+        findings_html = (f'<p class="mini-label">{tt["key_findings"]}</p><ol class="findings">{findings}</ol>'
+                         if findings else "")
+        lead = f"""<section class="lead wrap" aria-labelledby="lead-title">
   <div class="lead-text">
-    {kicker(ctx, r, tt['latest'])}
-    <h1 class="lead-title"><a href="{report_url(ctx, r)}">{esc(lo['title'])}</a></h1>
+    {docline(ctx, r, tt['latest'], pages=True)}
+    <h1 class="lead-title" id="lead-title"><a href="{report_url(ctx, r)}">{esc(lo['title'])}</a></h1>
     <p class="dek">{esc(lo.get('subtitle', ''))}</p>
-    <p class="lead-summary">{esc(lo.get('summary', ''))}</p>
+    <div class="lead-findings">{findings_html}</div>
     <div class="buy-line">
       {price_html(ctx, r, big=True)}
-      <div class="btn-row">{buy_buttons(ctx, r, primary_only=True)}</div>
+      <div class="btn-row">{buy_buttons(ctx, r, primary_only=True)}{sample_button(ctx, r)}</div>
     </div>
-    <p class="more-links"><a class="text-link" href="{report_url(ctx, r)}">{tt['details']} →</a>{sample}</p>
+    <p class="more"><a href="{report_url(ctx, r)}">{tt['details']} →</a></p>
   </div>
-  <a class="lead-cover" href="{report_url(ctx, r)}" tabindex="-1">{cover(ctx, r)}</a>
+  <a class="lead-cover" href="{report_url(ctx, r)}" tabindex="-1">{cover(ctx, r, 'cover-lg')}</a>
 </section>"""
     past = ""
     if len(mine) > 1:
-        rows = "".join(entry(ctx, r) for r in mine[1:8])
-        past = f"""<section class="wrap block">
-  <div class="block-head"><h2 class="label">{tt['recent']}</h2><a class="text-link" href="{ctx.url('reports/')}">{tt['view_all']} →</a></div>
+        rows = "".join(entry(ctx, r) for r in mine[1:7])
+        past = f"""<section class="wrap section" aria-labelledby="past-h">
+  <header class="section-head"><h2 id="past-h">{tt['recent']}</h2><a href="{ctx.url('reports/')}">{tt['view_all'].format(n=len(mine))} →</a></header>
+  {entries_head(ctx)}
   <ol class="entries">{rows}</ol>
 </section>"""
-    counts = {k: sum(k in r.get("sectors", []) for r in mine) for k in site["sector_map"]}
-    sectors = "".join(
-        f'<li><a href="{ctx.url("reports/")}?sector={k}">{esc(sec[lang])}</a><span>{counts[k]}</span></li>'
-        for k, sec in site["sector_map"].items())
-    how = "".join(f"<p><strong>{esc(h)}</strong> {esc(p)}</p>" for h, p in tt["how_items"])
-    body = f"""{lead}
-{past}
-<section class="wrap block columns">
+    upcoming = [it for r in mine for it in thresholds_of(ctx, r) if it["end"] >= TODAY]
+    upcoming.sort(key=lambda x: (x["start"], x["end"]))
+    ths = ""
+    if len(upcoming) >= 3:
+        ths = f"""<section class="wrap section" aria-labelledby="th-h">
+  <header class="section-head"><h2 id="th-h">{tt['thresholds_home']}</h2><p class="section-note">{tt['thresholds_note']}</p></header>
+  {threshold_list(ctx, upcoming[:6], home=True)}
+</section>"""
+    facts = ""
+    if mine:
+        n_cols = min(8, len(mine))
+        facts = f"""<section class="wrap section facts-grid">
   <div>
-    <h2 class="label">{tt['coverage']}</h2>
-    <ul class="sector-list">{sectors}</ul>
+    <header class="section-head"><h2>{tt['coverage_title']}</h2><p class="section-note">{tt['coverage_note'].format(n=n_cols)}</p></header>
+    {coverage_matrix(ctx, mine)}
   </div>
   <div>
-    <h2 class="label">{tt['how_title']}</h2>
-    {how}
-  </div>
-  <div>
-    <h2 class="label">{tt['b2b_title']}</h2>
-    <p>{tt['b2b_text']}</p>
-    <p><a class="text-link" href="{esc(mailto(site, tt['b2b_subject']))}">{tt['b2b_cta']} →</a></p>
+    <header class="section-head"><h2>{tt['spec_title']}</h2></header>
+    {pub_spec(ctx, mine)}
   </div>
 </section>"""
-    return page(ctx, "", body, checkout=True, alt_path="", edition=edition)
+    body = f"{lead}\n{past}\n{ths}\n{facts}"
+    return page(ctx, "", body, checkout=True, alt_path="")
 
 
 def render_archive(ctx, reports):
     site, tt, lang = ctx.site, ctx.t, ctx.lang
     mine = [r for r in reports if lang in r]
     used = [k for k in site["sector_map"] if any(k in r.get("sectors", []) for r in mine)]
-    chips = f'<button class="chip" data-filter="" aria-pressed="true">{tt["filter_all"]}</button>' + "".join(
-        f'<button class="chip" data-filter="{k}" aria-pressed="false">{esc(sector_label(site, k, lang))}</button>'
-        for k in used)
-    listing = (f'<ol class="entries">{"".join(entry(ctx, r) for r in mine)}</ol>' if mine
+    count = lambda k: sum(k in r.get("sectors", []) for r in mine)
+    chips = (f'<button class="chip" data-filter="" aria-pressed="true">{tt["filter_all"]} {num(len(mine))}</button>'
+             + "".join(f'<button class="chip" data-filter="{k}" aria-pressed="false">'
+                       f'{esc(sector_label(site, k, lang))} {num(count(k))}</button>' for k in used))
+    listing = (f'{entries_head(ctx)}<ol class="entries">{"".join(entry(ctx, r) for r in mine)}</ol>' if mine
                else f'<p class="muted">{tt["empty"]}</p>')
     body = f"""<section class="page-head wrap">
   <h1>{tt['archive_title']}</h1>
-  <p class="dek">{tt['archive_sub']}</p>
+  <p class="dek">{tt['archive_sub'].format(n=len(mine))}</p>
   <div class="filters" role="group">{chips}</div>
 </section>
-<section class="wrap block-tight">{listing}</section>"""
+<section class="wrap section">{listing}</section>"""
     return page(ctx, tt["archive_title"], body, alt_path="reports/")
 
 
 def render_report(ctx, r, has_alt):
     site, tt, lang = ctx.site, ctx.t, ctx.lang
     lo = r[lang]
-    facts = [(tt["f_date"], fmt_date(r["date"], lang))]
+    facts = [(tt["f_date"], num(fmt_date(r["date"], lang)))]
     if r.get("pages"):
-        facts.append((tt["f_length"], tt["pages_unit"].format(n=r["pages"])))
-    facts.append((tt["f_format"], "PDF · " + tt["lang_" + r.get("language", "ko")]))
-    facts_html = "".join(f"<dt>{esc(k)}</dt><dd>{esc(v)}</dd>" for k, v in facts)
-    sample = (f'<a class="btn btn-line btn-block" href="{esc(ctx.sample_url(r))}">{tt["sample"]}</a>'
-              if r.get("sample") else "")
-    notes = "".join(f"<li>{esc(n)}</li>" for n in tt["purchase_notes"])
-    sections = []
+        facts.append((tt["f_length"], esc(tt["pages_unit"].format(n=r["pages"]))))
+    facts.append((tt["f_format"], esc("PDF · " + tt["lang_" + r.get("language", "ko")])))
+    facts.append((tt["f_sector"], esc(sectors_text(ctx, r))))
+    facts_html = "".join(f"<dt>{esc(k)}</dt><dd>{v}</dd>" for k, v in facts)
+    terms = list(tt["order_terms"])          # 실제로 가능한 결제 방법만 적는다
+    if lang == "ko":
+        if not korea_on(ctx, r):
+            terms = [t for t in terms if t[0] != "국내 결제"]
+        if not r.get("pay_global"):
+            terms = [t for t in terms if t[0] != "해외 결제"]
+    elif not r.get("pay_global"):          # 영어 화면은 해외 결제뿐: 링크가 없으면 결제·발송 안내도 뺀다
+        terms = [t for t in terms if t[0] not in ("Checkout", "Delivery")]
+    terms_html = "".join(f"<dt>{esc(k)}</dt><dd>{esc(v)}</dd>" for k, v in terms)
+    clauses = []
     if lo.get("body"):
-        sections.append(f'<section><h2 class="label">{tt["overview"]}</h2>{md(lo["body"])}</section>')
+        clauses.append(f'<section class="clause"><h2>{tt["overview"]}</h2><div class="prose">{md(lo["body"])}</div></section>')
     if lo.get("key_findings"):
         items = "".join(f"<li><span>{inline(x)}</span></li>" for x in lo["key_findings"])
-        sections.append(f'<section><h2 class="label">{tt["key_findings"]}</h2><ol class="findings">{items}</ol></section>')
+        clauses.append(f'<section class="clause"><h2>{tt["key_findings"]}</h2><ol class="findings">{items}</ol></section>')
+    ths = thresholds_of(ctx, r)
+    if ths:
+        clauses.append(f'<section class="clause"><h2>{tt["thresholds"]}</h2>{threshold_list(ctx, ths)}</section>')
     if lo.get("toc"):
         items = "".join(f"<li><span>{inline(x)}</span></li>" for x in lo["toc"])
-        sections.append(f'<section><h2 class="label">{tt["toc"]}</h2><ol class="toc">{items}</ol></section>')
+        clauses.append(f'<section class="clause"><h2>{tt["toc"]}</h2><ol class="toc">{items}</ol></section>')
+    b2b = esc(mailto(site, tt["b2b_subject"] + " - " + issue_no(r)))
     body = f"""<article class="wrap report">
-  <p class="crumbs"><a href="{ctx.url('reports/')}">{tt['archive_title']}</a> / {issue_no(r)}</p>
+  <p class="crumbs"><a href="{ctx.url('reports/')}">{tt['archive_title']}</a> / {num(issue_no(r))}</p>
   <header class="report-head">
-    {kicker(ctx, r)}
+    {docline(ctx, r, pages=True)}
     <h1>{esc(lo['title'])}</h1>
     <p class="dek">{esc(lo.get('subtitle', ''))}</p>
   </header>
+  <div class="buy-inline">{price_html(ctx, r, big=True)}<div class="btn-row">{buy_buttons(ctx, r, primary_only=True)}</div></div>
   <div class="report-body">
-    <div class="prose">{''.join(sections)}</div>
-    <aside class="buy-box">
-      {cover(ctx, r, 'cover-sm')}
-      <dl class="facts">{facts_html}</dl>
-      <div class="buy-price">{price_html(ctx, r, big=True)}</div>
-      {buy_buttons(ctx, r, block=True)}
-      {sample}
-      <ul class="notes">{notes}</ul>
-      <p class="small"><a href="{ctx.url('refund/')}">{tt['refund_link']}</a> · <a href="{esc(mailto(site, tt['b2b_subject'] + ' - ' + issue_no(r)))}">{tt['b2b_title']}</a></p>
+    <div class="report-main">{''.join(clauses)}</div>
+    <aside class="order" aria-label="{tt['purchase']}">
+      <div class="order-top">{cover(ctx, r, 'cover-sm')}<dl class="order-facts">{facts_html}</dl></div>
+      <div class="order-price">{price_html(ctx, r, big=True)}</div>
+      <div class="order-buttons">{buy_buttons(ctx, r, block=True)}{sample_button(ctx, r, block=True)}</div>
+      <dl class="order-terms">{terms_html}</dl>
+      <p class="order-links"><a href="{ctx.url('refund/')}">{tt['refund_link']}</a><a href="{b2b}">{tt['b2b_title']}</a></p>
     </aside>
   </div>
 </article>"""
@@ -619,18 +822,18 @@ def render_samples(ctx, reports):
         if lang not in r or not r.get("sample"):
             continue
         lo = r[lang]
-        items.append(f"""<li class="sample">
-  <a href="{esc(ctx.sample_url(r))}" tabindex="-1">{cover(ctx, r, 'cover-xs')}</a>
-  <div>
-    {kicker(ctx, r)}
+        items.append(f"""<li class="entry entry-sample">
+  <a class="entry-cover" href="{esc(ctx.sample_url(r))}" tabindex="-1">{cover(ctx, r, 'cover-xs')}</a>
+  <div class="entry-main">
+    {docline(ctx, r)}
     <h3><a href="{report_url(ctx, r)}">{esc(lo['title'])}</a></h3>
-    <p>{esc(lo.get('summary', ''))}</p>
-    <p class="more-links"><a class="text-link" href="{esc(ctx.sample_url(r))}">{tt['sample']} →</a><a class="text-link" href="{report_url(ctx, r)}">{tt['details']} →</a></p>
+    <p class="entry-sum">{esc(lo.get('summary', ''))}</p>
+    <div class="btn-row">{sample_button(ctx, r)}<a class="more-link" href="{report_url(ctx, r)}">{tt['details']} →</a></div>
   </div>
 </li>""")
-    listing = f'<ul class="samples">{"".join(items)}</ul>' if items else f'<p class="muted">{tt["samples_empty"]}</p>'
+    listing = f'<ol class="entries">{"".join(items)}</ol>' if items else f'<p class="muted">{tt["samples_empty"]}</p>'
     body = f"""<section class="page-head wrap"><h1>{tt['samples_title']}</h1><p class="dek">{tt['samples_sub']}</p></section>
-<section class="wrap block-tight">{listing}</section>"""
+<section class="wrap section">{listing}</section>"""
     return page(ctx, tt["samples_title"], body, alt_path="samples/")
 
 
@@ -638,8 +841,8 @@ def render_doc(ctx, name, text, has_alt):
     text = text.replace("{email}", ctx.site["email"])
     title = text.strip().splitlines()[0].lstrip("# ").strip()
     rest = "\n".join(text.strip().splitlines()[1:])
-    body = f"""<section class="page-head wrap narrow"><h1>{esc(title)}</h1></section>
-<section class="wrap narrow block-tight prose doc">{md(rest)}</section>"""
+    body = f"""<section class="page-head wrap"><h1>{esc(title)}</h1></section>
+<section class="wrap section"><div class="prose doc">{md(rest)}</div></section>"""
     return page(ctx, title, body, alt_path=f"{name}/" if has_alt else None, noindex=name in HIDDEN_PAGES)
 
 
@@ -648,9 +851,9 @@ def render_404(site):
     ctx = Ctx(site, lang, "")
     ctx.root = site["base_path"]          # 404는 아무 주소에서나 뜨므로 절대 경로 사용
     tt = ctx.t
-    body = f"""<section class="page-head wrap narrow">
+    body = f"""<section class="page-head wrap">
   <h1>{tt['not_found_title']}</h1><p class="dek">{tt['not_found_text']}</p>
-  <p><a class="text-link" href="{ctx.url()}">{tt['home']} →</a></p>
+  <p class="more"><a href="{ctx.url()}">{tt['home']} →</a></p>
 </section>"""
     return page(ctx, tt["not_found_title"], body)
 
@@ -673,6 +876,8 @@ def build():
     shutil.copytree(STATIC, OUT / "assets")
     if (CONTENT / "samples").exists():
         shutil.copytree(CONTENT / "samples", OUT / "samples", ignore=shutil.ignore_patterns(".*"))
+    if (CONTENT / "covers").exists():
+        shutil.copytree(CONTENT / "covers", OUT / "covers", ignore=shutil.ignore_patterns(".*"))
 
     listed = [r for r in reports if not r.get("unlisted")]   # 목록·홈·샘플에 나오는 보고서
     written, hidden = [], []                                   # hidden: 사이트맵에서 빼는 페이지
