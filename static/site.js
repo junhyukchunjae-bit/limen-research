@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const chips = [...document.querySelectorAll(".chip[data-filter]")];
   if (!chips.length) return;
-  const rows = document.querySelectorAll(".rows .row");
+  const rows = document.querySelectorAll(".entries .entry");
 
   const apply = (key) => {
     chips.forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.filter === key)));
