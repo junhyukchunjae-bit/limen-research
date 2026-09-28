@@ -30,7 +30,7 @@ build.py             content/ 를 읽어 _site/ 에 사이트를 만드는 프�
    Settings → General → 맨 아래 Danger Zone → Change visibility → Public
 2. **Pages 켜기**: Settings → Pages → Build and deployment → Source 를 **GitHub Actions** 로 선택
 3. **main 에 합치기**: 작업 브랜치를 main 에 합치면 몇 분 뒤
-   `https://junhyukchunjae-bit.github.io/claude-test/` 에 사이트가 열립니다.
+   `https://junhyukchunjae-bit.github.io/limen-research/` 에 사이트가 열립니다.
 4. **이메일 바꾸기**: `content/site.toml` 의 `email` 을 실제 주소로
 5. **예시 보고서 정리**: `content/reports/` 의 예시 3편(`example = true`)을 지우거나 `draft = true`
 

@@ -2,7 +2,7 @@
 # 이 파일을 고치면 사이트 전체에 반영됩니다.
 
 # 사이트 주소. 도메인을 연결하면 예: "https://limenresearch.com" 으로 바꾸세요.
-site_url = "https://junhyukchunjae-bit.github.io/claude-test"
+site_url = "https://junhyukchunjae-bit.github.io/limen-research"
 
 # 사이트 언어. 첫 번째가 기본 언어입니다.
 # 영어를 열 때: languages = ["ko", "en"]  → /en/ 아래에 영어 사이트가 생깁니다.
