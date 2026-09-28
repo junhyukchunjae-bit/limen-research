@@ -66,7 +66,7 @@ T = {
         "thresholds": "문턱 일정",
         "thresholds_home": "다가오는 문턱",
         "thresholds_note": "보고서가 추적하는 표준·규제·예산·출시 일정",
-        "as_of": "기준",
+        "as_of": "{d} 기준",
         "archive_title": "보고서 목록",
         "archive_sub": "지금까지 발행한 보고서 {n}편. 분야별로 걸러 볼 수 있습니다.",
         "filter_all": "전체",
@@ -155,7 +155,7 @@ T = {
         "thresholds": "Threshold dates",
         "thresholds_home": "Upcoming thresholds",
         "thresholds_note": "Standards, regulation, budget and launch dates our reports track",
-        "as_of": "as of",
+        "as_of": "as of {d}",
         "archive_title": "Report archive",
         "archive_sub": "{n} reports published so far. Filter by sector.",
         "filter_all": "All",
@@ -595,7 +595,7 @@ def entry(ctx, r):
     lo = r[ctx.lang]
     pages = ctx.t["pages_unit"].format(n=r["pages"]) if r.get("pages") else ""
     return f"""<li class="entry" data-sectors="{' '.join(r.get('sectors', []))}">
-  <a class="entry-cover" href="{report_url(ctx, r)}" tabindex="-1">{cover(ctx, r, 'cover-xs')}</a>
+  <a class="entry-cover" href="{report_url(ctx, r)}" tabindex="-1" aria-hidden="true">{cover(ctx, r, 'cover-xs')}</a>
   <div class="entry-main">
     {docline(ctx, r)}
     <h3><a href="{report_url(ctx, r)}">{esc(lo['title'])}</a></h3>
@@ -614,8 +614,7 @@ def entries_head(ctx):
 
 def threshold_list(ctx, items, home=False):
     """문턱 일정 표. 기준일(빌드한 날) 자리에 '지금' 선을 끼워 지난 일정과 다가올 일정을 가른다."""
-    now = (f'<li class="th-now"><span class="num">{fmt_date(TODAY, ctx.lang)}</span>'
-           f'<span>{ctx.t["as_of"]}</span></li>')
+    now = f'<li class="th-now"><span class="num">{ctx.t["as_of"].format(d=fmt_date(TODAY, ctx.lang))}</span></li>'
     rows, placed = [], False
     for it in items:
         if not placed and it["end"] >= TODAY:
@@ -707,7 +706,7 @@ def render_home(ctx, reports):
     </div>
     <p class="more"><a href="{report_url(ctx, r)}">{tt['details']} →</a></p>
   </div>
-  <a class="lead-cover" href="{report_url(ctx, r)}" tabindex="-1">{cover(ctx, r, 'cover-lg')}</a>
+  <a class="lead-cover" href="{report_url(ctx, r)}" tabindex="-1" aria-hidden="true">{cover(ctx, r, 'cover-lg')}</a>
 </section>"""
     past = ""
     if len(mine) > 1:
@@ -823,7 +822,7 @@ def render_samples(ctx, reports):
             continue
         lo = r[lang]
         items.append(f"""<li class="entry entry-sample">
-  <a class="entry-cover" href="{esc(ctx.sample_url(r))}" tabindex="-1">{cover(ctx, r, 'cover-xs')}</a>
+  <a class="entry-cover" href="{esc(ctx.sample_url(r))}" tabindex="-1" aria-hidden="true">{cover(ctx, r, 'cover-xs')}</a>
   <div class="entry-main">
     {docline(ctx, r)}
     <h3><a href="{report_url(ctx, r)}">{esc(lo['title'])}</a></h3>
