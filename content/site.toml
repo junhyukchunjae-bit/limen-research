@@ -1,0 +1,77 @@
+# LIMEN RESEARCH 사이트 설정
+# 이 파일을 고치면 사이트 전체에 반영됩니다.
+
+# 사이트 주소. 도메인을 연결하면 예: "https://limenresearch.com" 으로 바꾸세요.
+site_url = "https://junhyukchunjae-bit.github.io/limen-research"
+
+# 사이트 언어. 첫 번째가 기본 언어입니다.
+# 영어를 열 때: languages = ["ko", "en"]  → /en/ 아래에 영어 사이트가 생깁니다.
+languages = ["ko"]
+
+# 문의 이메일 (사이트 하단·구매 문의 버튼에 표시). TODO: 실제 주소로 교체
+email = "contact@example.com"
+
+[ko]
+eyebrow = "Weekly Tech Intelligence"
+tagline = "기술의 문턱 너머를 먼저 읽습니다"
+intro = "모빌리티·통신·전자·국방·금융·IT. 매주 한 편, 산업이 다음 국면으로 넘어가는 지점을 짚는 심층 보고서를 발행합니다."
+description = "LIMEN RESEARCH는 모빌리티, 통신, 전자, 국방, 금융, IT 산업의 전환점을 분석한 심층 보고서를 매주 발행합니다."
+
+[en]
+eyebrow = "Weekly Tech Intelligence"
+tagline = "Reading past the threshold of technology"
+intro = "Mobility, telecom, electronics, defense, finance and IT. One in-depth report every week on where each industry turns next."
+description = "LIMEN RESEARCH publishes weekly in-depth reports on turning points in mobility, telecom, electronics, defense, finance and IT."
+
+# 다루는 분야. key는 보고서 파일의 sectors 에 씁니다. color는 표지·태그 색.
+[[sectors]]
+key = "mobility"
+ko = "모빌리티"
+en = "Mobility"
+color = "#3b82f6"
+
+[[sectors]]
+key = "telecom"
+ko = "통신"
+en = "Telecom"
+color = "#14b8a6"
+
+[[sectors]]
+key = "electronics"
+ko = "전자·반도체"
+en = "Electronics"
+color = "#8b5cf6"
+
+[[sectors]]
+key = "defense"
+ko = "국방"
+en = "Defense"
+color = "#84a33a"
+
+[[sectors]]
+key = "finance"
+ko = "금융"
+en = "Finance"
+color = "#22a06b"
+
+[[sectors]]
+key = "it"
+ko = "IT·소프트웨어"
+en = "IT & Software"
+color = "#f06449"
+
+# 국내 결제 (한국어 화면). 원화 가격(price_krw)이 있는 보고서에 '국내 결제' 버튼이 생깁니다.
+# 버튼이 가는 곳: 보고서 파일의 pay_korea(결제 링크) → 없으면 아래 신청서 → 없으면 이메일 신청
+[korea]
+enabled = true
+# 구매 신청서 주소 (구글 폼 등, 선택). 주소 안에 {report} 를 넣으면 보고서 이름이 채워집니다.
+order_form_url = ""
+
+# 사업자 정보. 사업자등록·통신판매업 신고 후 채우면 사이트 하단에 표시됩니다.
+# 비워 두면 표시하지 않습니다.
+[business]
+name = ""
+owner = ""
+reg_no = ""
+mail_order_no = ""
+address = ""

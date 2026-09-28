@@ -1,0 +1,36 @@
+# (예시 보고서)
+issue = 1
+date = 2026-09-14
+sectors = ["telecom"]
+pages = 40
+language = "ko"
+price_krw = 300000
+price_usd = 220
+pay_korea = ""
+pay_global = ""
+example = true
+
+[ko]
+title = "6G 표준화 로드맵: 무엇이 먼저 정해지는가"
+cover_title = "6G 표준화 로드맵"
+subtitle = "표준 일정과 주파수 논의로 읽는 장비·단말 시장의 시간표"
+summary = "6G는 표준이 정해지는 순서가 곧 시장이 열리는 순서입니다. 표준화 일정과 주파수 논의를 따라가며 장비·단말·부품 시장이 언제 어떻게 움직일지 정리합니다."
+body = """
+이동통신 세대 전환에서 표준화 일정은 투자와 제품 개발 계획의 기준점이 됩니다.
+
+이 보고서는 6G 표준화 논의의 주요 쟁점과 일정, 주파수 확보 논의를 정리하고, 장비·단말·부품 기업이 준비해야 할 시점을 제시합니다.
+"""
+key_findings = [
+  "표준화 일정과 상용화 사이의 시차",
+  "주파수 논의가 장비·부품 수요에 미치는 영향",
+  "국내 기업이 준비해야 할 시점별 체크리스트",
+]
+toc = ["요약", "6G 표준화 일정", "핵심 기술 쟁점", "주파수 논의", "시장별 시간표", "시사점"]
+
+[en]
+title = "The 6G Standards Roadmap: What Gets Decided First"
+cover_title = "6G Standards Roadmap"
+subtitle = "Reading the equipment and device timeline from standards and spectrum"
+summary = "In 6G, the order in which standards are set is the order in which markets open. We follow the standards and spectrum timeline to see when each market moves."
+key_findings = ["Gap between standards and commercial launch", "How spectrum shapes demand", "A timeline checklist for suppliers"]
+toc = ["Summary", "Standards timeline", "Key technical issues", "Spectrum", "Market timeline", "Implications"]

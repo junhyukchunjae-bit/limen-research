@@ -1,0 +1,60 @@
+# 보고서 1편 = 파일 1개. 파일 이름이 주소가 됩니다 → /reports/2026-09-28-aidv/
+# (이 파일은 예시입니다. 실제 보고서를 올리면 지우거나 draft = true 로 숨기세요.)
+
+issue = 3                      # 호수 → "No. 003"
+date = 2026-09-28              # 발행일
+sectors = ["mobility", "electronics"]   # site.toml 의 sectors key
+pages = 48                     # 쪽수 (선택)
+language = "ko"                # 보고서 PDF 언어: ko / en
+price_krw = 300000             # 국내 결제 가격 (원). 한국어 화면의 기본 가격
+price_usd = 220                # 해외 결제 가격 (USD)
+pay_korea = ""                 # 국내 결제 링크 (페이앱·토스페이먼츠 등). 비우면 '국내 구매 신청'으로 연결
+pay_global = ""                # 해외 결제 링크 (Lemon Squeezy). 비우면 해외 결제 버튼이 숨겨짐
+sample = "2026-09-28-aidv-sample.pdf"   # content/samples/ 안의 무료 샘플 파일 (선택)
+example = true                 # 예시 표시. 실제 보고서에서는 이 줄을 지우세요
+# draft = true                 # true 면 사이트에 나오지 않음
+
+[ko]
+title = "AI 중심 차량(AIDV): SDV 다음, 차량의 두뇌는 누가 갖는가"
+cover_title = "AI 중심 차량(AIDV)"
+subtitle = "소프트웨어 정의 차량 이후의 주도권 경쟁과 부품 생태계 재편"
+summary = "SDV 전환 이후 차량 아키텍처의 무게중심이 AI 추론으로 이동하고 있습니다. 완성차·반도체·빅테크가 차량의 두뇌를 두고 벌이는 경쟁 구도와 국내 부품사의 기회를 정리합니다."
+body = """
+이 보고서는 소프트웨어 정의 차량(SDV) 다음 단계로 거론되는 AI 중심 차량(AIDV)의 개념과 실제 구현 경로를 다룹니다.
+
+차량용 고성능컴퓨팅(HPC) 플랫폼, 인포테인먼트와 자율주행 도메인의 통합, 차량 내 생성형 AI 적용 사례를 비교하고, 누가 어떤 계층을 가져가는지 가치사슬 관점에서 분석합니다.
+
+### 이런 분께 권합니다
+- 완성차·전장 부품사의 전략·기획 담당자
+- 차량용 반도체와 소프트웨어 분야를 보는 투자자
+- 모빌리티 신사업을 검토하는 IT·통신 기업
+"""
+key_findings = [
+  "SDV와 AIDV의 차이: 기능을 소프트웨어로 바꾸는 단계에서 **판단을 AI로 옮기는 단계**로",
+  "차량용 HPC 플랫폼을 둘러싼 반도체·완성차·빅테크의 3자 구도",
+  "국내 전장·부품사가 들어갈 수 있는 계층과 진입 조건",
+]
+toc = [
+  "요약",
+  "AIDV의 정의와 SDV와의 차이",
+  "차량 아키텍처 변화: 도메인에서 중앙 집중형으로",
+  "차량용 HPC 플랫폼 경쟁 구도",
+  "가치사슬별 주도권 분석",
+  "국내 기업의 기회와 과제",
+  "전망과 체크포인트",
+]
+
+[en]
+title = "AI-Defined Vehicles: Who Owns the Car's Brain After SDV?"
+cover_title = "AI-Defined Vehicles"
+subtitle = "The race for control after software-defined vehicles"
+summary = "After the SDV shift, the center of vehicle architecture is moving to AI inference. We map the contest between automakers, chipmakers and big tech, and where suppliers fit."
+body = """
+This report covers the AI-defined vehicle (AIDV), often described as the step after the software-defined vehicle, and how it is being built in practice.
+"""
+key_findings = [
+  "From software-defined functions to **AI-driven decisions**",
+  "The three-way contest over in-vehicle HPC platforms",
+  "Where suppliers can enter, and on what terms",
+]
+toc = ["Summary", "What AIDV means", "Architecture shift", "HPC platform landscape", "Value chain", "Outlook"]
