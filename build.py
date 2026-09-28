@@ -85,6 +85,17 @@ T = {
         "overview": "개요",
         "key_findings": "핵심 내용",
         "toc": "목차",
+        "quote_label": "핵심 문장",
+        "numbers_title": "숫자로 보는 이 보고서",
+        "features_title": "이 보고서의 특징",
+        "figures_title": "그림 미리보기",
+        "for_whom_title": "이런 분께 권합니다",
+        "author_title": "지은이",
+        "info_title": "보고서 정보",
+        "i_title": "제목",
+        "i_author": "지은이",
+        "i_date": "등록일",
+        "i_price": "가격",
         "purchase": "구매",
         "price_global": "해외 결제 US${usd}",
         "pay_kr": "국내 결제하기",
@@ -174,6 +185,24 @@ T = {
         "overview": "Overview",
         "key_findings": "Key findings",
         "toc": "Contents",
+        "quote_label": "In one sentence",
+        "numbers_title": "By the numbers",
+        "features_title": "How this report works",
+        "figures_title": "Figure previews",
+        "for_whom_title": "Who it is for",
+        "author_title": "Author",
+        "info_title": "Report details",
+        "i_title": "Title",
+        "i_author": "Author",
+        "i_date": "Published",
+        "i_price": "Price",
+        "teaser_title": "English edition in preparation",
+        "teaser_lead": ("LIMEN RESEARCH publishes one in-depth report a week on the points where technology "
+                        "crosses into industry: mobility, telecom, semiconductors, defense, finance and software. "
+                        "Reports are currently published in Korean."),
+        "teaser_contact": "For English-language inquiries, team licences, or to hear when the English edition launches, email",
+        "teaser_list": "Current reports (Korean edition)",
+        "teaser_open": "Korean edition",
         "purchase": "Purchase",
         "order_terms": [
             ("Checkout", "Card or PayPal, in US dollars"),
@@ -242,8 +271,12 @@ def load_reports(site):
         for lang in ("ko", "en"):
             for line in r.get(lang, {}).get("thresholds", []):
                 parse_period(line.partition("|")[0], path.name)
+            for fig in r.get(lang, {}).get("figures", []):
+                if not (CONTENT / "figures" / fig["image"]).exists():
+                    raise SystemExit(f"{path.name}: 그림 파일 content/figures/{fig['image']} 이 없습니다")
         reports.append(r)
-    reports.sort(key=lambda r: (r["date"], r.get("issue", 0)), reverse=True)
+    # 호수가 곧 발행 순서다. 가장 큰 호수가 '이번 호'.
+    reports.sort(key=lambda r: (r.get("issue", 0), r["date"]), reverse=True)
     return reports
 
 
@@ -387,6 +420,8 @@ class Ctx:
     def url(self, target="", lang=None):
         """사이트 안 링크. target은 언어 폴더 기준 경로."""
         lang = lang or self.lang
+        if lang not in self.site["languages"]:
+            lang = self.site["languages"][0]
         prefix = "" if lang == self.site["languages"][0] else f"{lang}/"
         return self.root + prefix + target
 
@@ -429,7 +464,7 @@ def docline(ctx, r, lead="", pages=False):
 def cover(ctx, r, cls=""):
     """보고서 앞표지 (A4 비율). 실제 PDF 첫 장 이미지가 있으면(cover_image) 그걸 쓴다.
     이미지 없이 그릴 때: 머리띠 · 제목 · 문턱선 위에 선 호수 · 7칸 분야 색인 · 발행일/쪽수."""
-    lo = r.get(ctx.lang, {})
+    lo = r.get(ctx.lang) or r.get(ctx.site["languages"][0], {})
     img = r.get("cover_image", "")
     if img:
         src = img if img.startswith("http") else ctx.root + "covers/" + img
@@ -491,6 +526,8 @@ def sample_button(ctx, r, block=False):
 
 def nav_links(ctx, alt_path):
     site, lang = ctx.site, ctx.lang
+    if lang not in site["languages"]:              # 영문 안내 페이지: 메뉴는 한국어 사이트로 가는 링크 하나
+        return f'<a class="lang" href="{ctx.url()}" hreflang="ko">{T[lang]["switch_label"]}</a>'
     nav = [("reports/", ctx.t["nav_reports"]), ("samples/", ctx.t["nav_samples"]), ("about/", ctx.t["nav_about"])]
     current = ' aria-current="page"'
     links = "".join(f'<a href="{ctx.url(p)}"{current if ctx.path.startswith(p) else ""}>{esc(label)}</a>'
@@ -498,6 +535,8 @@ def nav_links(ctx, alt_path):
     if len(site["languages"]) > 1 and alt_path is not None:
         other = [l for l in site["languages"] if l != lang][0]
         links += f'<a class="lang" href="{ctx.url(alt_path, other)}" hreflang="{other}">{T[lang]["switch_label"]}</a>'
+    elif "en" not in site["languages"]:            # 영어 사이트 준비 중: 영문 안내 페이지로
+        links += f'<a class="lang" href="{ctx.root}en/" hreflang="en">EN</a>'
     return links
 
 
@@ -639,7 +678,7 @@ def threshold_list(ctx, items, home=False):
 
 def coverage_matrix(ctx, reports, limit=8):
     """분야 × 최근 호 표. 채운 칸 = 그 호가 다룬 분야."""
-    cols = sorted(reports, key=lambda r: (r["date"], r.get("issue", 0)))[-limit:]
+    cols = sorted(reports, key=lambda r: (r.get("issue", 0), r["date"]))[-limit:]
     head = "".join(f'<th scope="col"><a class="num" href="{report_url(ctx, r)}" '
                    f'title="{esc(issue_no(r) + " " + r[ctx.lang]["title"])}">{r.get("issue", 0):03d}</a></th>'
                    for r in cols)
@@ -691,7 +730,8 @@ def render_home(ctx, reports):
     if mine:
         r = mine[0]
         lo = r[lang]
-        findings = "".join(f"<li><span>{inline(x)}</span></li>" for x in lo.get("key_findings", [])[:3])
+        points = lo.get("key_findings") or [f["title"] for f in lo.get("features", [])]
+        findings = "".join(f"<li><span>{inline(x)}</span></li>" for x in points[:3])
         findings_html = (f'<p class="mini-label">{tt["key_findings"]}</p><ol class="findings">{findings}</ol>'
                          if findings else "")
         lead = f"""<section class="lead wrap" aria-labelledby="lead-title">
@@ -760,6 +800,27 @@ def render_archive(ctx, reports):
     return page(ctx, tt["archive_title"], body, alt_path="reports/")
 
 
+def toc_html(lines):
+    if not any(l.startswith("# ") for l in lines):
+        items = "".join(f"<li><span>{inline(x)}</span></li>" for x in lines)
+        return f'<ol class="toc">{items}</ol>'
+    groups, cur = [], (None, [])
+    for l in lines:
+        if l.startswith("# "):
+            if cur[0] is not None or cur[1]:
+                groups.append(cur)
+            cur = (l[2:].strip(), [])
+        else:
+            cur[1].append(l)
+    groups.append(cur)
+    out = []
+    for title, items in groups:
+        head = f'<h3 class="toc-part">{inline(title)}</h3>' if title else ""
+        lis = "".join(f"<li>{inline(x)}</li>" for x in items)
+        out.append(f'<div class="toc-group">{head}' + (f'<ul class="toc toc-plain">{lis}</ul>' if lis else "") + "</div>")
+    return f'<div class="toc-parts">{"".join(out)}</div>'
+
+
 def render_report(ctx, r, has_alt):
     site, tt, lang = ctx.site, ctx.t, ctx.lang
     lo = r[lang]
@@ -778,31 +839,75 @@ def render_report(ctx, r, has_alt):
     elif not r.get("pay_global"):          # 영어 화면은 해외 결제뿐: 링크가 없으면 결제·발송 안내도 뺀다
         terms = [t for t in terms if t[0] not in ("Checkout", "Delivery")]
     terms_html = "".join(f"<dt>{esc(k)}</dt><dd>{esc(v)}</dd>" for k, v in terms)
+    def clause(title, inner, cls=""):
+        return f'<section class="clause{cls}"><h2>{title}</h2>{inner}</section>'
+
     clauses = []
+    if lo.get("quote"):
+        src = f'<p class="quote-source">{esc(lo["quote_source"])}</p>' if lo.get("quote_source") else ""
+        clauses.append(clause(f'<span class="sr-only">{tt["quote_label"]}</span>',
+                              f'<blockquote class="quote"><p>{inline(lo["quote"])}</p>{src}</blockquote>', " clause-quote"))
     if lo.get("body"):
-        clauses.append(f'<section class="clause"><h2>{tt["overview"]}</h2><div class="prose">{md(lo["body"])}</div></section>')
+        clauses.append(clause(tt["overview"], f'<div class="prose">{md(lo["body"])}</div>'))
+    if lo.get("numbers"):
+        cells = "".join(
+            f'<div><dt>{esc(n.get("label", ""))}</dt><dd><span class="num">{esc(n["value"])}</span>'
+            f'<span class="unit">{esc(n.get("unit", ""))}</span></dd></div>' for n in lo["numbers"])
+        clauses.append(clause(tt["numbers_title"], f'<dl class="numbers">{cells}</dl>'))
+    if lo.get("features"):
+        items = "".join(f'<li><h3>{esc(f["title"])}</h3><p>{inline(f.get("text", ""))}</p></li>' for f in lo["features"])
+        clauses.append(clause(tt["features_title"], f'<ul class="features">{items}</ul>'))
     if lo.get("key_findings"):
         items = "".join(f"<li><span>{inline(x)}</span></li>" for x in lo["key_findings"])
-        clauses.append(f'<section class="clause"><h2>{tt["key_findings"]}</h2><ol class="findings">{items}</ol></section>')
+        clauses.append(clause(tt["key_findings"], f'<ol class="findings">{items}</ol>'))
+    if lo.get("figures"):
+        figs = "".join(
+            f'<figure class="fig"><figcaption>{esc(f.get("title", ""))}</figcaption>'
+            f'<img src="{ctx.root}figures/{esc(f["image"])}" alt="{esc(f.get("title", ""))}" loading="lazy">'
+            + (f'<p class="fig-note">{esc(f["note"])}</p>' if f.get("note") else "") + "</figure>"
+            for f in lo["figures"])
+        clauses.append(clause(tt["figures_title"], f'<div class="figs">{figs}</div>'))
     ths = thresholds_of(ctx, r)
     if ths:
-        clauses.append(f'<section class="clause"><h2>{tt["thresholds"]}</h2>{threshold_list(ctx, ths)}</section>')
+        clauses.append(clause(tt["thresholds"], threshold_list(ctx, ths)))
     if lo.get("toc"):
-        items = "".join(f"<li><span>{inline(x)}</span></li>" for x in lo["toc"])
-        clauses.append(f'<section class="clause"><h2>{tt["toc"]}</h2><ol class="toc">{items}</ol></section>')
+        clauses.append(clause(tt["toc"], toc_html(lo["toc"])))
+    if lo.get("for_whom"):
+        items = "".join(f"<li>{inline(x)}</li>" for x in lo["for_whom"])
+        clauses.append(clause(tt["for_whom_title"], f'<ul class="for-whom">{items}</ul>'))
+    if lo.get("author"):
+        clauses.append(clause(tt["author_title"], f'<div class="prose">{md(lo["author"])}</div>'))
+    info = [(tt["i_title"], esc(lo["title"]))]
+    info.append((tt["i_author"], "LIMEN RESEARCH"))
+    info.append((tt["i_date"], num(fmt_date(r["date"], lang))))
+    if r.get("pages"):
+        info.append((tt["f_length"], esc(tt["pages_unit"].format(n=r["pages"]))))
+    info.append((tt["f_format"], esc("PDF · " + tt["lang_" + r.get("language", "ko")])))
+    info.append((tt["f_sector"], esc(sectors_text(ctx, r))))
+    info += [(esc(k), esc(v)) for k, v in lo.get("info", [])]
+    price = price_html(ctx, r, ref=False)
+    if price:
+        info.append((tt["i_price"], price))
+    rows = "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in info)
+    clauses.append(clause(tt["info_title"], f'<dl class="spec">{rows}</dl>'))
     b2b = esc(mailto(site, tt["b2b_subject"] + " - " + issue_no(r)))
+    series = f'<p class="series">{esc(r["series"])}</p>' if r.get("series") else ""
     body = f"""<article class="wrap report">
   <p class="crumbs"><a href="{ctx.url('reports/')}">{tt['archive_title']}</a> / {num(issue_no(r))}</p>
   <header class="report-head">
-    {docline(ctx, r, pages=True)}
-    <h1>{esc(lo['title'])}</h1>
-    <p class="dek">{esc(lo.get('subtitle', ''))}</p>
+    <div class="report-head-text">
+      {series}
+      {docline(ctx, r, pages=True)}
+      <h1>{esc(lo['title'])}</h1>
+      <p class="dek">{esc(lo.get('subtitle', ''))}</p>
+    </div>
+    <div class="report-head-cover">{cover(ctx, r, 'cover-md')}</div>
   </header>
   <div class="buy-inline">{price_html(ctx, r, big=True)}<div class="btn-row">{buy_buttons(ctx, r, primary_only=True)}</div></div>
   <div class="report-body">
     <div class="report-main">{''.join(clauses)}</div>
     <aside class="order" aria-label="{tt['purchase']}">
-      <div class="order-top">{cover(ctx, r, 'cover-sm')}<dl class="order-facts">{facts_html}</dl></div>
+      <dl class="order-facts">{facts_html}</dl>
       <div class="order-price">{price_html(ctx, r, big=True)}</div>
       <div class="order-buttons">{buy_buttons(ctx, r, block=True)}{sample_button(ctx, r, block=True)}</div>
       <dl class="order-terms">{terms_html}</dl>
@@ -857,6 +962,33 @@ def render_404(site):
     return page(ctx, tt["not_found_title"], body)
 
 
+def render_en_teaser(site, reports):
+    """영어 사이트를 열기 전에 두는 영문 안내 페이지 (/en/). 보고서 링크는 한국어 페이지로 간다."""
+    ctx = Ctx(site, "en", "")
+    tt = ctx.t
+    rows = []
+    for r in reports:
+        lo = r.get("en") or r[site["languages"][0]]
+        rows.append(f"""<li class="entry entry-sample">
+  <a class="entry-cover" href="{report_url(ctx, r)}" tabindex="-1" aria-hidden="true">{cover(ctx, r, 'cover-xs')}</a>
+  <div class="entry-main">
+    {docline(ctx, r, pages=True)}
+    <h3><a href="{report_url(ctx, r)}">{esc(lo['title'])}</a></h3>
+    <p class="more"><a href="{report_url(ctx, r)}">{tt['teaser_open']} →</a></p>
+  </div>
+</li>""")
+    body = f"""<section class="page-head wrap">
+  <h1>{tt['teaser_title']}</h1>
+  <p class="dek">{tt['teaser_lead']}</p>
+  <p class="more">{tt['teaser_contact']} <a href="mailto:{esc(site['email'])}">{esc(site['email'])}</a>.</p>
+</section>
+<section class="wrap section">
+  <header class="section-head"><h2>{tt['teaser_list']}</h2></header>
+  <ol class="entries">{''.join(rows)}</ol>
+</section>"""
+    return page(ctx, tt["teaser_title"], body, description=tt["teaser_lead"])
+
+
 # ---------------------------------------------------------------------------
 # 빌드
 # ---------------------------------------------------------------------------
@@ -875,8 +1007,9 @@ def build():
     shutil.copytree(STATIC, OUT / "assets")
     if (CONTENT / "samples").exists():
         shutil.copytree(CONTENT / "samples", OUT / "samples", ignore=shutil.ignore_patterns(".*"))
-    if (CONTENT / "covers").exists():
-        shutil.copytree(CONTENT / "covers", OUT / "covers", ignore=shutil.ignore_patterns(".*"))
+    for folder in ("covers", "figures"):
+        if (CONTENT / folder).exists():
+            shutil.copytree(CONTENT / folder, OUT / folder, ignore=shutil.ignore_patterns(".*"))
 
     listed = [r for r in reports if not r.get("unlisted")]   # 목록·홈·샘플에 나오는 보고서
     written, hidden = [], []                                   # hidden: 사이트맵에서 빼는 페이지
@@ -899,6 +1032,8 @@ def build():
                 has_alt = all((CONTENT / "pages" / f"{name}.{l}.md").exists() for l in langs)
                 html_ = render_doc(C(f"{name}/"), name, src.read_text(encoding="utf-8"), has_alt)
                 (hidden if name in HIDDEN_PAGES else written).append(write(pre + f"{name}/index.html", html_))
+    if "en" not in langs:                     # 영어 사이트를 열기 전: 메뉴의 EN 버튼이 가는 안내 페이지
+        written.append(write("en/index.html", render_en_teaser(site, listed)))
     write("404.html", render_404(site))
 
     base = site["site_url"].rstrip("/") + "/"
