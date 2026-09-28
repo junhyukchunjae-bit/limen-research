@@ -12,60 +12,57 @@ languages = ["ko"]
 email = "contact@example.com"
 
 [ko]
-eyebrow = "Weekly Tech Intelligence"
 tagline = "기술의 문턱 너머를 먼저 읽습니다"
-intro = "모빌리티·통신·전자·국방·금융·IT. 매주 한 편, 산업이 다음 국면으로 넘어가는 지점을 짚는 심층 보고서를 발행합니다."
 description = "LIMEN RESEARCH는 모빌리티, 통신, 전자, 국방, 금융, IT 산업의 전환점을 분석한 심층 보고서를 매주 발행합니다."
 
 [en]
-eyebrow = "Weekly Tech Intelligence"
 tagline = "Reading past the threshold of technology"
-intro = "Mobility, telecom, electronics, defense, finance and IT. One in-depth report every week on where each industry turns next."
 description = "LIMEN RESEARCH publishes weekly in-depth reports on turning points in mobility, telecom, electronics, defense, finance and IT."
 
-# 다루는 분야. key는 보고서 파일의 sectors 에 씁니다. color는 표지·태그 색.
+# 다루는 분야. key는 보고서 파일의 sectors 에 씁니다.
+# code는 표지 아래 분야 칸에 찍히는 약자입니다 (영문 대문자 2~3자).
 [[sectors]]
 key = "mobility"
+code = "MOB"
 ko = "모빌리티"
 en = "Mobility"
-color = "#3b82f6"
 
 [[sectors]]
 key = "telecom"
+code = "TEL"
 ko = "통신"
 en = "Telecom"
-color = "#14b8a6"
 
 [[sectors]]
 key = "electronics"
+code = "SEM"
 ko = "전자·반도체"
 en = "Electronics"
-color = "#8b5cf6"
 
 [[sectors]]
 key = "defense"
+code = "DEF"
 ko = "국방"
 en = "Defense"
-color = "#84a33a"
 
 [[sectors]]
 key = "finance"
+code = "FIN"
 ko = "금융"
 en = "Finance"
-color = "#22a06b"
 
 [[sectors]]
 key = "it"
+code = "SW"
 ko = "IT·소프트웨어"
 en = "IT & Software"
-color = "#f06449"
 
 # 여러 분야를 함께 다루는 전망·트렌드 보고서용
 [[sectors]]
 key = "cross"
+code = "ALL"
 ko = "종합"
 en = "Cross-sector"
-color = "#57524a"
 
 # 국내 결제 (한국어 화면). 원화 가격(price_krw)이 있는 보고서에 '국내 결제' 버튼이 생깁니다.
 # 버튼이 가는 곳: 보고서 파일의 pay_korea(결제 링크) → 없으면 아래 신청서 → 없으면 이메일 신청
