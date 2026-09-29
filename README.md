@@ -19,7 +19,8 @@ content/
   reports/           보고서 1편 = 파일 1개 (.toml). 파일 이름이 주소가 됩니다
   samples/           무료 샘플 PDF
   pages/             소개·이용약관·환불정책·개인정보처리방침 (.ko.md / .en.md)
-static/              디자인(CSS), 스크립트, 아이콘
+static/              디자인(CSS), 스크립트, 파비콘, 링크 미리보기 이미지
+  brand/             로고 파일 (표지·문서용 PNG/SVG와 사용 안내)
 build.py             content/ 를 읽어 _site/ 에 사이트를 만드는 프로그램
 .github/workflows/   main 에 올라오면 자동으로 사이트를 만들어 배포
 ```
@@ -33,6 +34,15 @@ build.py             content/ 를 읽어 _site/ 에 사이트를 만드는 프�
    `https://junhyukchunjae-bit.github.io/limen-research/` 에 사이트가 열립니다.
 4. **이메일 바꾸기**: `content/site.toml` 의 `email` 을 실제 주소로
 5. **예시 보고서 정리**: `content/reports/` 의 예시 3편(`example = true`)을 지우거나 `draft = true`
+
+## 로고
+
+로고 파일은 `static/brand/` 에 있고, 쓰는 법은 그 폴더의 `README.md` 에 있습니다.
+
+- **보고서 표지**: `logo-cover.png` 를 표지 맨 아래에 폭 22~26mm로 넣습니다. 원래 있던 빨간 막대 + 가는 선과 'LIMEN RESEARCH' 글자는 지웁니다.
+- **내려받기**: GitHub 저장소에서 `static` → `brand` → 파일 이름을 누르고, 오른쪽 위 **다운로드 버튼(↓, Download raw file)** 을 누릅니다.
+  사이트에 반영된 뒤에는 `https://junhyukchunjae-bit.github.io/limen-research/assets/brand/logo-cover.png` 처럼 주소로도 받을 수 있습니다.
+- 사이트 머리글, 파비콘, 아이폰 홈 화면 아이콘, 카카오톡·SNS 링크 미리보기(`static/og.png`)에는 이미 들어가 있습니다.
 
 ## 결제 연결
 

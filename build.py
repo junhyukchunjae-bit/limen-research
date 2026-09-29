@@ -8,6 +8,7 @@ content/ 의 설정·보고서·문서를 읽어 _site/ 에 정적 HTML을 만�
     LIMEN_LANGS=ko,en python3 build.py   # 설정과 무관하게 언어 지정 (미리보기용)
 """
 import datetime as dt
+import functools
 import html
 import json
 import os
@@ -20,6 +21,7 @@ from urllib.parse import quote, urlparse
 ROOT = Path(__file__).resolve().parent
 CONTENT = ROOT / "content"
 STATIC = ROOT / "static"
+BRAND = STATIC / "brand"            # 로고 파일 (다시 그리지 말고 여기 것을 쓴다)
 OUT = ROOT / "_site"
 KST = dt.timezone(dt.timedelta(hours=9))
 TODAY = dt.datetime.now(KST).date()   # '문턱 일정'의 기준일: 빌드한 날 (한국 시간)
@@ -540,11 +542,28 @@ def nav_links(ctx, alt_path):
     return links
 
 
+@functools.cache
+def brand_svg(name, cls):
+    """static/brand/ 의 로고를 HTML에 직접 넣는다. 먹은 글자색(--ink), 문턱 막대는 --signal 을 따라 다크모드에서 저절로 바뀐다."""
+    svg = (BRAND / name).read_text(encoding="utf-8")
+    svg = re.sub(r"<\?xml[^>]*>|<style[\s\S]*?</style>|<title[\s\S]*?</title>", "", svg).strip()
+    svg = re.sub(r'fill="#0[bB]6[cC]88"', 'class="logo-sig"', svg)
+    return svg.replace("<svg ", f'<svg class="{cls}" aria-hidden="true" focusable="false" ', 1)
+
+
+def brand_link(ctx, desc=True):
+    """머리·바닥의 로고 링크. 데스크톱 32px, 좁은 화면 28px 파일을 바꿔 끼운다 (둘 다 픽셀에 맞춘 원본이라 늘리거나 줄이지 않는다)."""
+    d = f'<span class="brand-desc">{esc(ctx.t["descriptor"])}</span>' if desc else ""
+    return (f'<a class="brand" href="{ctx.url()}"><span class="brand-logo">'
+            f'{brand_svg("logo-header.svg", "logo-d")}{brand_svg("logo-header-mobile.svg", "logo-m")}</span>'
+            f'<span class="sr-only">LIMEN RESEARCH</span>{d}</a>')
+
+
 def header(ctx, alt_path):
     """모든 페이지 같은 한 줄 머리. 큰 제호 없음."""
     return f"""<header class="site-head">
   <div class="wrap head-inner">
-    <a class="brand" href="{ctx.url()}"><span class="brand-name">LIMEN RESEARCH</span><span class="brand-desc">{esc(ctx.t['descriptor'])}</span></a>
+    {brand_link(ctx)}
     <nav class="nav">{nav_links(ctx, alt_path)}</nav>
   </div>
 </header>"""
@@ -558,7 +577,7 @@ def footer(ctx):
     return f"""<footer class="site-foot">
   <div class="wrap foot-grid">
     <div>
-      <a class="brand" href="{ctx.url()}"><span class="brand-name">LIMEN RESEARCH</span></a>
+      {brand_link(ctx, desc=False)}
       <p>{esc(site[ctx.lang]["tagline"])}</p>
     </div>
     <nav class="foot-nav">
@@ -585,6 +604,7 @@ def page(ctx, title, body, description="", alt_path=None, checkout=False, noinde
     full_title = f"{title} | LIMEN RESEARCH" if title else f"LIMEN RESEARCH | {site[ctx.lang]['tagline']}"
     desc = description or site[ctx.lang]["description"]
     canonical = site["site_url"].rstrip("/") + "/" + ctx.prefix + ctx.path
+    og_image = site["site_url"].rstrip("/") + "/assets/og.png"   # 링크 미리보기 (카카오톡·SNS)
     alts = ""
     if len(site["languages"]) > 1 and alt_path is not None:
         for l in site["languages"]:
@@ -606,9 +626,16 @@ def page(ctx, title, body, description="", alt_path=None, checkout=False, noinde
 <meta property="og:title" content="{esc(full_title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{esc(canonical)}">
+<meta property="og:image" content="{esc(og_image)}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LIMEN RESEARCH">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#101316" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="{ctx.asset('favicon-32.png')}" sizes="32x32" type="image/png">
 <link rel="icon" href="{ctx.asset('favicon.svg')}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{ctx.asset('apple-touch-icon.png')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
