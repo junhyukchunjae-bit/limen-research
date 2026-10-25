@@ -15,8 +15,8 @@ Limen is Latin for "threshold". We look for the moment a technology crosses into
 
 ## How we publish
 
-One PDF report every week. Every report comes with a free sample so you can check the depth and format before buying.
+One report every week, sold through Kyobo Book Centre. This site shows each report's overview, contents and figure previews with a free sample PDF, and lists upcoming reports in advance.
 
 ## Contact
 
-For purchases, team licenses or custom research, email us at the address at the bottom of this page.
+For bulk purchases or custom research, email us at the address at the bottom of this page.

@@ -6,12 +6,12 @@ date = 2026-09-28              # 발행일
 sectors = ["mobility", "electronics"]   # site.toml 의 sectors key
 pages = 48                     # 쪽수 (선택)
 language = "ko"                # 보고서 PDF 언어: ko / en
-price_krw = 300000             # 국내 결제 가격 (원). 한국어 화면의 기본 가격
-price_usd = 220                # 해외 결제 가격 (USD)
-pay_korea = ""                 # 국내 결제 링크 (페이앱·토스페이먼츠 등). 비우면 '국내 구매 신청'으로 연결
-pay_global = ""                # 해외 결제 링크 (Lemon Squeezy). 비우면 해외 결제 버튼이 숨겨짐
+price_krw = 300000             # 판매가 (원). 교보문고 판매가와 같게
+price_usd = 220                # 영어 화면용 참고 가격 (USD, 선택)
+buy_url = ""                   # 교보문고 상품 페이지 주소. 비우면 버튼이 "판매 준비 중"
 sample = "2026-09-28-aidv-sample.pdf"   # content/samples/ 안의 무료 샘플 파일 (선택)
 example = true                 # 예시 표시. 실제 보고서에서는 이 줄을 지우세요
+# upcoming = true              # 출간 예정: date 에 예정일을 쓰면 홈의 "출간 예정"에 나오고 구매 버튼은 잠김
 # draft = true                 # true 면 사이트에 나오지 않음
 
 [ko]
