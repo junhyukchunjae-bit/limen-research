@@ -52,7 +52,7 @@ T = {
         "coverage_note": "최근 {n}개 호",
         "spec_title": "발행 안내",
         "spec_rows": {
-            "cadence": ("발행", "매주 1편 · PDF · 한국어"),
+            "cadence": ("발행", "매주 1편 · 종이책(POD) · 한국어"),
             "length": ("분량", "편당 {a}–{b}쪽"),
             "price": ("판매가", "편당 {krw}"),
             "store": ("구매", "{store}에서 판매합니다. 결제·배송·환불은 {store}가 처리합니다"),
@@ -84,6 +84,7 @@ T = {
         "f_date": "발행일",
         "f_length": "분량",
         "f_format": "형식",
+        "format_default": "종이책(POD)",
         "f_sector": "분야",
         "overview": "개요",
         "key_findings": "핵심 내용",
@@ -138,7 +139,7 @@ T = {
         "coverage_note": "Last {n} issues",
         "spec_title": "Publication details",
         "spec_rows": {
-            "cadence": ("Frequency", "One report a week · PDF"),
+            "cadence": ("Frequency", "One report a week · print on demand"),
             "length": ("Length", "{a}–{b} pages per report"),
             "price": ("Price", "{usd} per report"),
             "store": ("Where to buy", "Sold through {store}, which handles payment, delivery and refunds"),
@@ -170,6 +171,7 @@ T = {
         "f_date": "Published",
         "f_length": "Length",
         "f_format": "Format",
+        "format_default": "Print on demand",
         "f_sector": "Sector",
         "overview": "Overview",
         "key_findings": "Key findings",
@@ -817,7 +819,7 @@ def render_report(ctx, r, has_alt):
     facts = [(date_label, num(fmt_date(r["date"], lang)))]
     if r.get("pages"):
         facts.append((tt["f_length"], esc(tt["pages_unit"].format(n=r["pages"]))))
-    facts.append((tt["f_format"], esc("PDF · " + tt["lang_" + r.get("language", "ko")])))
+    facts.append((tt["f_format"], esc(r.get("format") or tt["format_default"]) + " · " + esc(tt["lang_" + r.get("language", "ko")])))
     facts.append((tt["f_sector"], esc(sectors_text(ctx, r))))
     facts_html = "".join(f"<dt>{esc(k)}</dt><dd>{v}</dd>" for k, v in facts)
     terms_html = "".join(f"<dt>{esc(k)}</dt><dd>{esc(v.format(store=store(ctx)))}</dd>" for k, v in tt["order_terms"])
@@ -864,7 +866,7 @@ def render_report(ctx, r, has_alt):
     info.append((date_label if r.get("upcoming") else tt["i_date"], num(fmt_date(r["date"], lang))))
     if r.get("pages"):
         info.append((tt["f_length"], esc(tt["pages_unit"].format(n=r["pages"]))))
-    info.append((tt["f_format"], esc("PDF · " + tt["lang_" + r.get("language", "ko")])))
+    info.append((tt["f_format"], esc(r.get("format") or tt["format_default"]) + " · " + esc(tt["lang_" + r.get("language", "ko")])))
     info.append((tt["f_sector"], esc(sectors_text(ctx, r))))
     info += [(esc(k), esc(v)) for k, v in lo.get("info", [])]
     price = price_html(ctx, r)
