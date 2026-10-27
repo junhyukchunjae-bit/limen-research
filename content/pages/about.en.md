@@ -2,21 +2,19 @@
 
 ## LIMEN, the threshold
 
-Limen is Latin for "threshold". We look for the moment a technology crosses into an industry, when standards are set, supply chains shift and budgets move, and turn it into analysis you can act on.
+Limen is Latin for threshold. LIMEN RESEARCH publishes reports on the points where technology crosses into industry: when standards are set, supply chains reorganise and money moves. We check each claim against public filings and primary sources.
 
-## Coverage
+## How we work
 
-- Mobility: SDV, AIDV, automotive electronics, autonomy
-- Telecom: advanced 5G, 6G, satellite
-- Electronics: AI chips, automotive and defense semiconductors
-- Defense: weapon systems, defense AI, supply chains
-- Finance: digital finance infrastructure, payments, regulation
-- IT & Software: generative AI, cloud, enterprise software
+- Primary sources first: filings, press releases, official statistics, standards and legal texts, read in English, Chinese, Japanese, German and Korean.
+- Our own calculations, ratings and estimates are labelled as such, with formulas and assumptions in the appendix.
+- What we could not verify, we say we could not verify.
+- Independent research, with no commissioned work.
 
 ## How we publish
 
-One report every week, sold as a print-on-demand book through Kyobo Book Centre. This site shows each report's overview, contents and figure previews with a free sample PDF, and lists upcoming reports in advance.
+There is no fixed schedule; we publish a book when a turning point is worth a full study. Books are sold as print-on-demand editions through Kyobo Book Centre. This site shows each book's overview, contents, figure previews and a free preview PDF, and lists upcoming titles in advance.
 
 ## Contact
 
-For bulk purchases or custom research, email us at the address at the bottom of this page.
+Bulk purchases, talks, custom research and data-pack requests: {email}

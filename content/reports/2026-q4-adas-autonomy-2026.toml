@@ -1,0 +1,14 @@
+# 출간 예정 보고서. 교보문고에 올라가면 upcoming 줄을 지우고 date(발행일)·pages·buy_url·sample 을 채운다.
+
+issue = 2
+upcoming = true
+expected = "2026-Q4"             # 출간 예정 시기 (YYYY-Qn, YYYY-MM, YYYY-MM-DD)
+sectors = ["mobility"]
+language = "ko"
+cover_image = "2026-q4-adas-autonomy-2026.jpg"
+series = "LIMEN MOBILITY REPORT 2026"
+
+[ko]
+title = "ADAS·자율주행 기술 지도 2026 (가칭)"
+subtitle = "센서·컴퓨팅·소프트웨어·클라우드·시장·규제 여섯 영역의 양산 현황과 2035 로드맵 — 완성차 30곳·공급사 100여 곳 일람"
+summary = "센서·컴퓨팅·소프트웨어·클라우드·시장·규제 여섯 영역의 양산 현황과 2035 로드맵 — 완성차 30곳·공급사 100여 곳 일람"

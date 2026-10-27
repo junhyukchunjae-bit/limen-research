@@ -124,7 +124,7 @@ a:hover { text-decoration-thickness: 2px; }
 .cv-sill { position: absolute; left: 0; right: 0; top: 67%; height: 2.2cqi; background: #0b6c88; }  /* 문턱선: 표지의 유일한 색 */
 .cv-cells {
   position: absolute; left: 8cqi; right: 8cqi; bottom: 15cqi;
-  display: grid; grid-template-columns: repeat(7, 1fr); gap: 1.2cqi;
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 1.2cqi;   /* 분야 수만큼 칸 */
 }
 .cv-cells span {
   display: grid; place-items: center; height: 6.4cqi;

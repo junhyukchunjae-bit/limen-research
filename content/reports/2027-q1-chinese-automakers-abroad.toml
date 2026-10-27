@@ -1,0 +1,14 @@
+# 출간 예정 보고서. 교보문고에 올라가면 upcoming 줄을 지우고 date(발행일)·pages·buy_url·sample 을 채운다.
+
+issue = 5
+upcoming = true
+expected = "2027-Q1"             # 출간 예정 시기 (YYYY-Qn, YYYY-MM, YYYY-MM-DD)
+sectors = ["mobility"]
+language = "ko"
+cover_image = "2027-q1-chinese-automakers-abroad.jpg"
+series = "LIMEN MOBILITY REPORT 2027"
+
+[ko]
+title = "중국차의 세계 진출 (가칭)"
+subtitle = "BYD·지리·체리·상하이자동차의 해외 생산·판매·두뇌 수출 지도"
+summary = "BYD·지리·체리·상하이자동차의 해외 생산·판매·두뇌 수출 지도"
