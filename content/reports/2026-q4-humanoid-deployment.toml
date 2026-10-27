@@ -1,0 +1,14 @@
+# 출간 예정 보고서. 교보문고에 올라가면 upcoming 줄을 지우고 date(발행일)·pages·buy_url·sample 을 채운다.
+
+issue = 3
+upcoming = true
+expected = "2026-Q4"             # 출간 예정 시기 (YYYY-Qn, YYYY-MM, YYYY-MM-DD)
+sectors = ["robotics"]
+language = "ko"
+cover_image = "2026-q4-humanoid-deployment.jpg"
+series = "LIMEN PHYSICAL AI REPORT 2026"
+
+[ko]
+title = "휴머노이드, 시연에서 배치까지 (가칭)"
+subtitle = "피지컬 AI 산업의 출하·원가·두뇌·자본 2026–2035 — 공장·물류 현장 26곳 배치 감사와 로봇 제조사 40곳·부품사 30곳 일람"
+summary = "피지컬 AI 산업의 출하·원가·두뇌·자본 2026–2035 — 공장·물류 현장 26곳 배치 감사와 로봇 제조사 40곳·부품사 30곳 일람"

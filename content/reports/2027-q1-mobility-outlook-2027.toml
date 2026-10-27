@@ -1,0 +1,14 @@
+# 출간 예정 보고서. 교보문고에 올라가면 upcoming 줄을 지우고 date(발행일)·pages·buy_url·sample 을 채운다.
+
+issue = 4
+upcoming = true
+expected = "2027-Q1"             # 출간 예정 시기 (YYYY-Qn, YYYY-MM, YYYY-MM-DD)
+sectors = ["mobility"]
+language = "ko"
+cover_image = "2027-q1-mobility-outlook-2027.jpg"
+series = "LIMEN MOBILITY REPORT 2027"
+
+[ko]
+title = "모빌리티 아웃룩 2027 (가칭)"
+subtitle = "전기차·자율주행·차량 소프트웨어·배터리, 2027년을 움직일 숫자와 신호"
+summary = "전기차·자율주행·차량 소프트웨어·배터리, 2027년을 움직일 숫자와 신호"

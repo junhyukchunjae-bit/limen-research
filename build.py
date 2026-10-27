@@ -34,32 +34,28 @@ esc = html.escape
 T = {
     "ko": {
         "html_lang": "ko",
-        "descriptor": "주간 기술산업 보고서",
+        "descriptor": "기술산업 심층 리포트",
         "nav_reports": "보고서",
-        "nav_samples": "무료 샘플",
+        "nav_samples": "무료 미리보기",
         "nav_about": "소개",
         "switch_label": "EN",
-        "latest": "이번 호",
-        "recent": "지난 호",
-        "view_all": "전체 목록 {n}편",
+        "latest": "최신 리포트",
+        "recent": "지난 리포트",
+        "view_all": "전체 목록 {n}권",
         "col_cover": "표지",
         "col_report": "보고서",
         "col_pages": "분량",
         "col_price": "가격",
         "col_sector": "분야",
         "col_count": "편수",
-        "coverage_title": "분야별 발행 기록",
-        "coverage_note": "최근 {n}개 호",
-        "spec_title": "발행 안내",
+        "spec_title": "구매·문의",
         "spec_rows": {
-            "cadence": ("발행", "매주 1편 · 종이책(POD) · 한국어"),
-            "length": ("분량", "편당 {a}–{b}쪽"),
-            "price": ("판매가", "편당 {krw}"),
-            "store": ("구매", "{store}에서 판매합니다. 결제·배송·환불은 {store}가 처리합니다"),
-            "samples": ("무료 샘플", "{n}편 공개"),
-            "b2b": ("기업·기관", "여러 권 구매, 맞춤 리서치"),
+            "store": ("구매", "{store}에서 주문형 종이책(POD)으로 판매합니다. 결제·배송·환불은 {store}가 처리합니다"),
+            "samples": ("미리보기", "보고서마다 앞부분을 PDF로 공개합니다"),
+            "data": ("데이터 팩", "책에 실린 그림·표의 데이터는 이메일로 요청해 주세요"),
+            "contact": ("문의", "여러 권 구매, 강연, 맞춤 리서치"),
         },
-        "samples_link": "샘플 보기",
+        "samples_link": "미리보기 모음",
         "b2b_cta": "문의",
         "b2b_subject": "[LIMEN RESEARCH] 기업·기관 구매 문의",
         "thresholds": "문턱 일정",
@@ -67,7 +63,7 @@ T = {
         "thresholds_note": "보고서가 추적하는 표준·규제·예산·출시 일정",
         "as_of": "{d} 기준",
         "archive_title": "보고서 목록",
-        "archive_sub": "지금까지 발행한 보고서 {n}편. 분야별로 걸러 볼 수 있습니다.",
+        "archive_sub": "지금까지 펴낸 보고서 {n}권과 출간 예정 보고서. 분야별로 걸러 볼 수 있습니다.",
         "filter_all": "전체",
         "empty": "아직 발행된 보고서가 없습니다.",
         "pages_unit": "{n}쪽",
@@ -77,11 +73,12 @@ T = {
         "buy_soon": "판매 준비 중",
         "upcoming": "출간 예정",
         "upcoming_title": "출간 예정",
-        "upcoming_note": "준비 중인 보고서입니다. 소개와 샘플을 먼저 공개합니다",
+        "upcoming_note": "준비 중인 보고서입니다. 제목과 시기는 바뀔 수 있습니다",
         "f_date_upcoming": "출간 예정",
-        "sample": "무료 샘플 PDF",
+        "sample": "무료 미리보기 PDF",
         "details": "보고서 소개·목차",
         "f_date": "발행일",
+        "quarter": "{y}년 {q}분기",
         "f_length": "분량",
         "f_format": "형식",
         "format_default": "종이책(POD)",
@@ -106,9 +103,9 @@ T = {
             ("결제·배송·환불", "{store}의 정책을 따릅니다"),
         ],
         "b2b_title": "기업·기관 문의",
-        "samples_title": "무료 샘플",
-        "samples_sub": "보고서의 일부를 PDF로 미리 읽어 보세요. 구매 전에 분석의 깊이와 형식을 확인할 수 있습니다.",
-        "samples_empty": "공개된 샘플이 아직 없습니다.",
+        "samples_title": "무료 미리보기",
+        "samples_sub": "보고서의 앞부분(머리말·차례·요약·첫 장 일부)을 PDF로 공개합니다. 구매 전에 분석의 깊이와 형식을 확인하세요.",
+        "samples_empty": "공개된 미리보기가 아직 없습니다.",
         "example": "예시",
         "privacy": "개인정보처리방침",
         "contact": "문의",
@@ -121,13 +118,13 @@ T = {
     },
     "en": {
         "html_lang": "en",
-        "descriptor": "Weekly technology industry reports",
+        "descriptor": "In-depth technology industry reports",
         "nav_reports": "Reports",
         "nav_samples": "Free samples",
         "nav_about": "About",
         "switch_label": "한국어",
-        "latest": "This issue",
-        "recent": "Past issues",
+        "latest": "Latest report",
+        "recent": "Past reports",
         "view_all": "All {n} reports",
         "col_cover": "Cover",
         "col_report": "Report",
@@ -135,16 +132,12 @@ T = {
         "col_price": "Price",
         "col_sector": "Sector",
         "col_count": "Issues",
-        "coverage_title": "Coverage by sector",
-        "coverage_note": "Last {n} issues",
-        "spec_title": "Publication details",
+        "spec_title": "Buying and contact",
         "spec_rows": {
-            "cadence": ("Frequency", "One report a week · print on demand"),
-            "length": ("Length", "{a}–{b} pages per report"),
-            "price": ("Price", "{usd} per report"),
-            "store": ("Where to buy", "Sold through {store}, which handles payment, delivery and refunds"),
-            "samples": ("Free samples", "{n} available"),
-            "b2b": ("Teams", "Bulk purchases and custom research"),
+            "store": ("Where to buy", "Print-on-demand books sold through {store}, which handles payment, delivery and refunds"),
+            "samples": ("Previews", "The opening pages of every report as a free PDF"),
+            "data": ("Data pack", "Data behind the book's figures and tables is available by email"),
+            "contact": ("Contact", "Bulk purchases, talks, custom research"),
         },
         "samples_link": "See samples",
         "b2b_cta": "Contact us",
@@ -164,11 +157,12 @@ T = {
         "buy_soon": "Coming soon",
         "upcoming": "Upcoming",
         "upcoming_title": "Upcoming",
-        "upcoming_note": "Reports in preparation. Overviews and samples come first",
+        "upcoming_note": "Reports in preparation. Titles and timing may change",
         "f_date_upcoming": "Expected",
-        "sample": "Free sample (PDF)",
+        "sample": "Free preview (PDF)",
         "details": "Overview and contents",
         "f_date": "Published",
+        "quarter": "Q{q} {y}",
         "f_length": "Length",
         "f_format": "Format",
         "format_default": "Print on demand",
@@ -244,6 +238,10 @@ def load_reports(site):
         if r.get("draft"):
             continue
         r["slug"] = path.stem
+        if r.get("expected"):                       # 출간 예정 시기 (예: "2026-Q4"). 정렬에는 그 시작일을 쓴다
+            r["date"] = parse_period(r["expected"], path.name)[0]
+        if not r.get("date"):
+            raise SystemExit(f"{path.name}: date(발행일) 또는 expected(출간 예정 시기)가 필요합니다")
         for key in r.get("sectors", []):
             if key not in site["sector_map"]:
                 raise SystemExit(f"{path.name}: 알 수 없는 분야 '{key}' (site.toml의 sectors 확인)")
@@ -304,6 +302,22 @@ def md(text):
 # ---------------------------------------------------------------------------
 def fmt_date(d, lang):
     return d.strftime("%Y.%m.%d") if lang == "ko" else d.strftime("%b %d, %Y").replace(" 0", " ")
+
+
+def when(ctx, r):
+    """보고서 날짜 표시. 출간 예정 시기가 분기·월이면 '2026년 4분기'처럼, 아니면 발행일."""
+    if r.get("expected"):
+        m = PERIOD.match(r["expected"].strip())
+        y, mo, d, q = m.groups()
+        if q:
+            return ctx.t["quarter"].format(y=y, q=q)
+        return parse_period(r["expected"])[2]
+    return fmt_date(r["date"], ctx.lang)
+
+
+def has_page(r):
+    """상세 페이지를 만드는지. 출간 예정인데 소개 글(body)이 없으면 목록에만 싣는다."""
+    return not r.get("upcoming") or any(r.get(l, {}).get("body") for l in ("ko", "en"))
 
 
 def issue_no(r):
@@ -438,7 +452,7 @@ def docline(ctx, r, lead="", pages=False):
     if r.get("upcoming"):
         parts.append(f'<span class="soon">{esc(ctx.t["upcoming"])}</span>')
     parts.append(f'<span class="num id">{issue_no(r)}</span>')
-    parts.append(num(fmt_date(r["date"], ctx.lang)))
+    parts.append(num(when(ctx, r)))
     parts.append(f"<span>{esc(sectors_text(ctx, r))}</span>")
     if pages and r.get("pages"):
         parts.append(f"<span>{esc(ctx.t['pages_unit'].format(n=r['pages']))}</span>")
@@ -464,7 +478,7 @@ def cover(ctx, r, cls=""):
   <div class="cv-no">{r.get('issue', 0):03d}</div>
   <div class="cv-sill"></div>
   <div class="cv-cells">{cells}</div>
-  <div class="cv-foot"><span>{fmt_date(r["date"], ctx.lang)}</span><span>{esc(pages)}</span></div>
+  <div class="cv-foot"><span>{when(ctx, r)}</span><span>{esc(pages)}</span></div>
 </div>"""
 
 
@@ -619,11 +633,17 @@ def entry(ctx, r):
     """목록 한 줄: 표지 | 문서 머리 · 제목 · 요약 | 분량 | 가격"""
     lo = r[ctx.lang]
     pages = ctx.t["pages_unit"].format(n=r["pages"]) if r.get("pages") else ""
+    if has_page(r):
+        cov = f'<a class="entry-cover" href="{report_url(ctx, r)}" tabindex="-1" aria-hidden="true">{cover(ctx, r, "cover-xs")}</a>'
+        title = f'<a href="{report_url(ctx, r)}">{esc(lo["title"])}</a>'
+    else:                                   # 소개 페이지가 아직 없는 출간 예정 보고서
+        cov = f'<span class="entry-cover" aria-hidden="true">{cover(ctx, r, "cover-xs")}</span>'
+        title = esc(lo["title"])
     return f"""<li class="entry" data-sectors="{' '.join(r.get('sectors', []))}">
-  <a class="entry-cover" href="{report_url(ctx, r)}" tabindex="-1" aria-hidden="true">{cover(ctx, r, 'cover-xs')}</a>
+  {cov}
   <div class="entry-main">
     {docline(ctx, r)}
-    <h3><a href="{report_url(ctx, r)}">{esc(lo['title'])}</a></h3>
+    <h3>{title}</h3>
     <p class="entry-sum">{esc(lo.get('summary', ''))}</p>
   </div>
   <p class="entry-pages num">{esc(pages)}</p>
@@ -662,45 +682,16 @@ def threshold_list(ctx, items, home=False):
     return f'<ol class="{cls}">{"".join(rows)}</ol>'
 
 
-def coverage_matrix(ctx, reports, limit=8):
-    """분야 × 최근 호 표. 채운 칸 = 그 호가 다룬 분야."""
-    cols = sorted(reports, key=lambda r: (r.get("issue", 0), r["date"]))[-limit:]
-    head = "".join(f'<th scope="col"><a class="num" href="{report_url(ctx, r)}" '
-                   f'title="{esc(issue_no(r) + " " + r[ctx.lang]["title"])}">{r.get("issue", 0):03d}</a></th>'
-                   for r in cols)
-    rows = []
-    for k, sec in ctx.site["sector_map"].items():
-        n = sum(k in r.get("sectors", []) for r in reports)
-        if not n:                       # 아직 다룬 적 없는 분야는 빈 줄로 보여 주지 않는다
-            continue
-        cells = "".join('<td><span class="on" role="img" aria-label="' + esc(issue_no(r)) + '"></span></td>'
-                        if k in r.get("sectors", []) else '<td><span class="off"></span></td>' for r in cols)
-        rows.append(f'<tr><th scope="row"><a href="{ctx.url("reports/")}?sector={k}">{esc(sec[ctx.lang])}</a></th>'
-                    f'{cells}<td class="count num">{n}</td></tr>')
-    return (f'<table class="matrix"><thead><tr><th scope="col">{ctx.t["col_sector"]}</th>{head}'
-            f'<th scope="col" class="count">{ctx.t["col_count"]}</th></tr></thead>'
-            f'<tbody>{"".join(rows)}</tbody></table>')
-
-
 def pub_spec(ctx, reports):
-    """발행 안내 표 (예전의 '구매 안내'·'기업·기관 구매' 단을 대신한다). 숫자는 데이터에서 계산."""
-    t, rows = ctx.t, []
-    S = t["spec_rows"]
-    rows.append(S["cadence"])
-    pages = [r["pages"] for r in reports if r.get("pages")]
-    if pages:
-        rows.append((S["length"][0], S["length"][1].format(a=min(pages), b=max(pages))))
-    latest = reports[0] if reports else {}
-    krw, usd = latest.get("price_krw"), latest.get("price_usd")
-    if (ctx.lang == "ko" and krw) or (ctx.lang != "ko" and usd):
-        rows.append((S["price"][0], S["price"][1].format(krw=f"₩{krw:,}" if krw else "", usd=f"US${usd:,}" if usd else "")))
-    rows.append((S["store"][0], S["store"][1].format(store=store(ctx))))
-    n = sum(1 for r in reports if r.get("sample"))
-    if n:
-        rows.append((S["samples"][0], f'{esc(S["samples"][1].format(n=n))} · '
-                                      f'<a href="{ctx.url("samples/")}">{t["samples_link"]}</a>'))
-    rows.append((S["b2b"][0], f'{esc(S["b2b"][1])} · <a href="{esc(mailto(ctx.site, t["b2b_subject"]))}">{t["b2b_cta"]}</a>'))
-    body = "".join(f"<dt>{esc(k)}</dt><dd>{v if '<a ' in v else esc(v)}</dd>" for k, v in rows)
+    """구매·문의 표: 판매처, 미리보기, 데이터 팩, 문의 이메일."""
+    t, S = ctx.t, ctx.t["spec_rows"]
+    mail = esc(ctx.site["email"])
+    rows = [(S["store"][0], esc(S["store"][1].format(store=store(ctx))))]
+    if any(r.get("sample") for r in reports):
+        rows.append((S["samples"][0], f'{esc(S["samples"][1])} · <a href="{ctx.url("samples/")}">{t["samples_link"]}</a>'))
+    rows.append((S["data"][0], f'{esc(S["data"][1])} · <a href="mailto:{mail}">{mail}</a>'))
+    rows.append((S["contact"][0], f'{esc(S["contact"][1])} · <a href="mailto:{mail}">{mail}</a>'))
+    body = "".join(f"<dt>{esc(k)}</dt><dd>{v}</dd>" for k, v in rows)
     return f'<dl class="spec">{body}</dl>'
 
 
@@ -735,7 +726,6 @@ def render_home(ctx, reports):
         rows = "".join(entry(ctx, r) for r in sorted(soon, key=lambda r: (r["date"], r.get("issue", 0))))
         upcoming_html = f"""<section class="wrap section" aria-labelledby="soon-h">
   <header class="section-head"><h2 id="soon-h">{tt['upcoming_title']}</h2><p class="section-note">{tt['upcoming_note']}</p></header>
-  {entries_head(ctx)}
   <ol class="entries">{rows}</ol>
 </section>"""
     past = ""
@@ -754,18 +744,9 @@ def render_home(ctx, reports):
   <header class="section-head"><h2 id="th-h">{tt['thresholds_home']}</h2><p class="section-note">{tt['thresholds_note']}</p></header>
   {threshold_list(ctx, upcoming[:6], home=True)}
 </section>"""
-    facts = ""
-    if mine:
-        n_cols = min(8, len(mine))
-        facts = f"""<section class="wrap section facts-grid">
-  <div>
-    <header class="section-head"><h2>{tt['coverage_title']}</h2><p class="section-note">{tt['coverage_note'].format(n=n_cols)}</p></header>
-    {coverage_matrix(ctx, mine)}
-  </div>
-  <div>
-    <header class="section-head"><h2>{tt['spec_title']}</h2></header>
-    {pub_spec(ctx, mine)}
-  </div>
+    facts = f"""<section class="wrap section" aria-labelledby="spec-h">
+  <header class="section-head"><h2 id="spec-h">{tt['spec_title']}</h2></header>
+  {pub_spec(ctx, mine + soon)}
 </section>"""
     body = f"{lead}\n{upcoming_html}\n{past}\n{ths}\n{facts}"
     return page(ctx, "", body, alt_path="")
@@ -781,7 +762,7 @@ def render_archive(ctx, reports):
                        f'{esc(sector_label(site, k, lang))} {num(count(k))}</button>' for k in used))
     listing = (f'{entries_head(ctx)}<ol class="entries">{"".join(entry(ctx, r) for r in mine)}</ol>' if mine
                else f'<p class="muted">{tt["empty"]}</p>')
-    published = sum(1 for r in mine if not r.get("upcoming"))
+    published = sum(1 for r in mine if not r.get("upcoming"))   # 펴낸 권수 (출간 예정 제외)
     body = f"""<section class="page-head wrap">
   <h1>{tt['archive_title']}</h1>
   <p class="dek">{tt['archive_sub'].format(n=published)}</p>
@@ -816,7 +797,7 @@ def render_report(ctx, r, has_alt):
     site, tt, lang = ctx.site, ctx.t, ctx.lang
     lo = r[lang]
     date_label = tt["f_date_upcoming"] if r.get("upcoming") else tt["f_date"]
-    facts = [(date_label, num(fmt_date(r["date"], lang)))]
+    facts = [(date_label, num(when(ctx, r)))]
     if r.get("pages"):
         facts.append((tt["f_length"], esc(tt["pages_unit"].format(n=r["pages"]))))
     facts.append((tt["f_format"], esc(r.get("format") or tt["format_default"]) + " · " + esc(tt["lang_" + r.get("language", "ko")])))
@@ -847,7 +828,8 @@ def render_report(ctx, r, has_alt):
     if lo.get("figures"):
         figs = "".join(
             f'<figure class="fig"><figcaption>{esc(f.get("title", ""))}</figcaption>'
-            f'<img src="{ctx.root}figures/{esc(f["image"])}" alt="{esc(f.get("title", ""))}" loading="lazy">'
+            f'<a href="{ctx.root}figures/{esc(f["image"])}" target="_blank" rel="noopener">'
+            f'<img src="{ctx.root}figures/{esc(f["image"])}" alt="{esc(f.get("title", ""))}" loading="lazy"></a>'
             + (f'<p class="fig-note">{esc(f["note"])}</p>' if f.get("note") else "") + "</figure>"
             for f in lo["figures"])
         clauses.append(clause(tt["figures_title"], f'<div class="figs">{figs}</div>'))
@@ -863,7 +845,7 @@ def render_report(ctx, r, has_alt):
         clauses.append(clause(tt["author_title"], f'<div class="prose">{md(lo["author"])}</div>'))
     info = [(tt["i_title"], esc(lo["title"]))]
     info.append((tt["i_author"], "LIMEN RESEARCH"))
-    info.append((date_label if r.get("upcoming") else tt["i_date"], num(fmt_date(r["date"], lang))))
+    info.append((date_label if r.get("upcoming") else tt["i_date"], num(when(ctx, r))))
     if r.get("pages"):
         info.append((tt["f_length"], esc(tt["pages_unit"].format(n=r["pages"]))))
     info.append((tt["f_format"], esc(r.get("format") or tt["format_default"]) + " · " + esc(tt["lang_" + r.get("language", "ko")])))
@@ -951,7 +933,7 @@ def render_en_teaser(site, reports):
     ctx = Ctx(site, "en", "")
     tt = ctx.t
     rows = []
-    for r in reports:
+    for r in [r for r in reports if has_page(r)]:
         lo = r.get("en") or r[site["languages"][0]]
         rows.append(f"""<li class="entry entry-sample">
   <a class="entry-cover" href="{report_url(ctx, r)}" tabindex="-1" aria-hidden="true">{cover(ctx, r, 'cover-xs')}</a>
@@ -1005,7 +987,7 @@ def build():
         written.append(write(pre + "reports/index.html", render_archive(C("reports/"), listed)))
         written.append(write(pre + "samples/index.html", render_samples(C("samples/"), listed)))
         for r in reports:
-            if lang in r:
+            if lang in r and has_page(r):
                 has_alt = all(l in r for l in langs)
                 p = f"reports/{r['slug']}/"
                 html_ = render_report(C(p), r, has_alt)
