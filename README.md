@@ -30,7 +30,7 @@ build.py             content/ 를 읽어 _site/ 에 사이트를 만드는 프�
    Settings → General → 맨 아래 Danger Zone → Change visibility → Public
 2. **Pages 켜기**: Settings → Pages → Build and deployment → Source 를 **GitHub Actions** 로 선택
 3. **main 에 합치기**: 작업 브랜치를 main 에 합치면 몇 분 뒤
-   `https://junhyukchunjae-bit.github.io/limen-research/` 에 사이트가 열립니다.
+   `https://limenresearch.com` 에 사이트가 열립니다.
 4. **이메일 바꾸기**: `content/site.toml` 의 `email` 을 실제 주소로
 5. **예시 보고서 정리**: `content/reports/` 의 예시 3편(`example = true`)을 지우거나 `draft = true`
 
@@ -40,7 +40,7 @@ build.py             content/ 를 읽어 _site/ 에 사이트를 만드는 프�
 
 - **보고서 표지**: `logo-cover.png` 를 표지 맨 아래에 폭 22~26mm로 넣습니다. 원래 있던 빨간 막대 + 가는 선과 'LIMEN RESEARCH' 글자는 지웁니다.
 - **내려받기**: GitHub 저장소에서 `static` → `brand` → 파일 이름을 누르고, 오른쪽 위 **다운로드 버튼(↓, Download raw file)** 을 누릅니다.
-  사이트에 반영된 뒤에는 `https://junhyukchunjae-bit.github.io/limen-research/assets/brand/logo-cover.png` 처럼 주소로도 받을 수 있습니다.
+  사이트에 반영된 뒤에는 `https://limenresearch.com/assets/brand/logo-cover.png` 처럼 주소로도 받을 수 있습니다.
 - 사이트 머리글, 파비콘, 아이폰 홈 화면 아이콘, 카카오톡·SNS 링크 미리보기(`static/og.png`)에는 이미 들어가 있습니다.
 
 ## 구매 링크 (교보문고)
@@ -82,7 +82,9 @@ Claude에게 이렇게 부탁하면 됩니다.
 ## 나중에
 
 - **영어 사이트 열기**: 그전까지는 메뉴의 EN 버튼이 영문 안내 페이지(`/en/`)로 갑니다. 열 때는 `site.toml` 에서 `languages = ["ko", "en"]`. 각 보고서에 `[en]` 부분이 있으면 `/en/` 에 영어 페이지가 생깁니다.
-- **도메인 연결**: 도메인 구입 후 `site.toml` 의 `site_url` 을 바꾸고 Settings → Pages → Custom domain 에 입력
+- **도메인**: `limenresearch.com` (가비아). 해마다 자동 연장되는지 My가비아 → 서비스 관리 → 도메인에서 확인합니다.
+  DNS 설정(가비아 → 도메인 관리 → DNS 정보 → DNS 관리): A 레코드 `@` 4개 `185.199.108.153`·`185.199.109.153`·`185.199.110.153`·`185.199.111.153`, CNAME `www` → `junhyukchunjae-bit.github.io.`
+  GitHub: Settings → Pages → Custom domain 에 `limenresearch.com`, Enforce HTTPS 체크.
 - **사업자 정보**: 사업자등록·통신판매업 신고 후 `site.toml` 의 `[business]` 를 채우면 하단에 표시됩니다.
 - **약관 3종**은 초안입니다. 판매 시작 전에 한 번 검토하세요.
 
