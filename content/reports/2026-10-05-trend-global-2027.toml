@@ -5,10 +5,9 @@ date = 2026-10-05
 sectors = ["cross"]
 pages = 72
 language = "ko"
-price_krw = 300000
-price_usd = 220
-pay_korea = ""
-pay_global = ""
+price_krw = 300000             # 판매가 (원). 교보문고 판매가와 같게
+price_usd = 220                # 영어 화면용 참고 가격 (USD, 선택)
+buy_url = ""                   # 교보문고 상품 페이지 주소. 비우면 버튼이 "판매 준비 중"
 sample = "2026-10-05-trend-global-2027-sample.pdf"
 example = true
 

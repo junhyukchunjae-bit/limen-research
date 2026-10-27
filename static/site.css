@@ -75,6 +75,7 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .docline .id { color: var(--ink); font-weight: 500; }
 .docline .now { color: var(--signal); font-weight: 600; }
+.docline .soon { color: var(--ink); font-weight: 600; }   /* 출간 예정: 강조색 아님 */
 .example { color: var(--ink-3); }
 .dek { margin-top: 12px; max-width: 34em; font-size: 19px; line-height: 1.55; color: var(--ink-2); }
 .mini-label { margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--ink-3); }
