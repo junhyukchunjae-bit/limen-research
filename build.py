@@ -72,6 +72,7 @@ T = {
         "lang_en": "영어",
         "buy": "{store}에서 구매",
         "buy_soon": "판매 준비 중",
+        "release_on": "{m}월 {d}일 출간",
         "upcoming": "출간 예정",
         "upcoming_title": "출간 예정",
         "upcoming_note": "준비 중인 보고서입니다. 제목과 시기는 바뀔 수 있습니다",
@@ -96,7 +97,7 @@ T = {
         "info_title": "보고서 정보",
         "i_title": "제목",
         "i_author": "지은이",
-        "i_date": "등록일",
+        "i_date": "발행일",
         "i_price": "판매가",
         "purchase": "구매",
         "order_terms": [
@@ -157,6 +158,7 @@ T = {
         "lang_en": "English",
         "buy": "Buy at {store}",
         "buy_soon": "Coming soon",
+        "release_on": "Out {m}/{d}",
         "upcoming": "Upcoming",
         "upcoming_title": "Upcoming",
         "upcoming_note": "Reports in preparation. Titles and timing may change",
@@ -492,7 +494,10 @@ def buy_buttons(ctx, r, block=False):
     if r.get("buy_url"):
         label = ctx.t["buy"].format(store=esc(store(ctx)))
         return f'<a class="btn{b}" href="{esc(r["buy_url"])}" target="_blank" rel="noopener">{label}</a>'
-    return f'<span class="btn{b} is-disabled" aria-disabled="true">{ctx.t["buy_soon"]}</span>'
+    label = ctx.t["buy_soon"]
+    if r["date"] > TODAY:                  # 출간일 전: 날짜를 알려 준다
+        label = ctx.t["release_on"].format(m=r["date"].month, d=r["date"].day)
+    return f'<span class="btn{b} is-disabled" aria-disabled="true">{label}</span>'
 
 
 def sample_button(ctx, r, block=False):
