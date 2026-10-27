@@ -17,4 +17,6 @@ There is no fixed schedule; we publish a book when a turning point is worth a fu
 
 ## Contact
 
-Bulk purchases, talks, custom research and data-pack requests: {email}
+- Questions about the books and error reports: {email}
+- Data pack: buyers can receive the data behind the book's figures and tables. Email a screenshot of your Kyobo order to {email}.
+- Bulk purchases, talks and custom research are in preparation.

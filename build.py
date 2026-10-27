@@ -52,12 +52,13 @@ T = {
         "spec_rows": {
             "store": ("구매", "{store}에서 주문형 종이책(POD)으로 판매합니다. 결제·배송·환불은 {store}가 처리합니다"),
             "samples": ("미리보기", "보고서마다 앞부분을 PDF로 공개합니다"),
-            "data": ("데이터 팩", "책에 실린 그림·표의 데이터는 이메일로 요청해 주세요"),
-            "contact": ("문의", "여러 권 구매, 강연, 맞춤 리서치"),
+            "data": ("데이터 팩", "책에 실린 그림·표의 데이터를 드립니다. 교보문고 구매 내역 화면을 캡처해 이메일로 보내 주세요"),
+            "contact": ("문의", "책 내용 문의와 오류 제보"),
+            "b2b": ("기업·기관", "여러 권 구매, 강연, 맞춤 리서치는 준비 중입니다"),
         },
         "samples_link": "미리보기 모음",
-        "b2b_cta": "문의",
-        "b2b_subject": "[LIMEN RESEARCH] 기업·기관 구매 문의",
+        "data_subject": "[LIMEN RESEARCH] 데이터 팩 요청 - {report}",
+        "data_body": "보고서: {report}\n\n교보문고 구매 내역(주문 번호가 보이는 화면) 캡처를 첨부해 주세요.\n데이터를 받을 이메일:\n",
         "thresholds": "문턱 일정",
         "thresholds_home": "다가오는 문턱",
         "thresholds_note": "보고서가 추적하는 표준·규제·예산·출시 일정",
@@ -71,6 +72,7 @@ T = {
         "lang_en": "영어",
         "buy": "{store}에서 구매",
         "buy_soon": "판매 준비 중",
+        "release_on": "{m}월 {d}일 출간",
         "upcoming": "출간 예정",
         "upcoming_title": "출간 예정",
         "upcoming_note": "준비 중인 보고서입니다. 제목과 시기는 바뀔 수 있습니다",
@@ -95,14 +97,14 @@ T = {
         "info_title": "보고서 정보",
         "i_title": "제목",
         "i_author": "지은이",
-        "i_date": "등록일",
+        "i_date": "발행일",
         "i_price": "판매가",
         "purchase": "구매",
         "order_terms": [
             ("판매처", "{store}"),
             ("결제·배송·환불", "{store}의 정책을 따릅니다"),
         ],
-        "b2b_title": "기업·기관 문의",
+        "data_link": "데이터 팩 요청",
         "samples_title": "무료 미리보기",
         "samples_sub": "보고서의 앞부분(머리말·차례·요약·첫 장 일부)을 PDF로 공개합니다. 구매 전에 분석의 깊이와 형식을 확인하세요.",
         "samples_empty": "공개된 미리보기가 아직 없습니다.",
@@ -136,12 +138,13 @@ T = {
         "spec_rows": {
             "store": ("Where to buy", "Print-on-demand books sold through {store}, which handles payment, delivery and refunds"),
             "samples": ("Previews", "The opening pages of every report as a free PDF"),
-            "data": ("Data pack", "Data behind the book's figures and tables is available by email"),
-            "contact": ("Contact", "Bulk purchases, talks, custom research"),
+            "data": ("Data pack", "Data behind the book's figures and tables, for buyers. Email us a screenshot of your Kyobo order"),
+            "contact": ("Contact", "Questions about the books and error reports"),
+            "b2b": ("Organisations", "Bulk purchases, talks and custom research are in preparation"),
         },
         "samples_link": "See samples",
-        "b2b_cta": "Contact us",
-        "b2b_subject": "[LIMEN RESEARCH] Team purchase inquiry",
+        "data_subject": "[LIMEN RESEARCH] Data pack request - {report}",
+        "data_body": "Report: {report}\n\nPlease attach a screenshot of your Kyobo order (with the order number).\nEmail to receive the data:\n",
         "thresholds": "Threshold dates",
         "thresholds_home": "Upcoming thresholds",
         "thresholds_note": "Standards, regulation, budget and launch dates our reports track",
@@ -155,6 +158,7 @@ T = {
         "lang_en": "English",
         "buy": "Buy at {store}",
         "buy_soon": "Coming soon",
+        "release_on": "Out {m}/{d}",
         "upcoming": "Upcoming",
         "upcoming_title": "Upcoming",
         "upcoming_note": "Reports in preparation. Titles and timing may change",
@@ -193,7 +197,7 @@ T = {
             ("Sold by", "{store}"),
             ("Payment and refunds", "Handled by {store}"),
         ],
-        "b2b_title": "Team inquiries",
+        "data_link": "Request the data pack",
         "samples_title": "Free samples",
         "samples_sub": "Read part of a report before you buy to see the depth and format of our analysis.",
         "samples_empty": "No samples published yet.",
@@ -490,7 +494,10 @@ def buy_buttons(ctx, r, block=False):
     if r.get("buy_url"):
         label = ctx.t["buy"].format(store=esc(store(ctx)))
         return f'<a class="btn{b}" href="{esc(r["buy_url"])}" target="_blank" rel="noopener">{label}</a>'
-    return f'<span class="btn{b} is-disabled" aria-disabled="true">{ctx.t["buy_soon"]}</span>'
+    label = ctx.t["buy_soon"]
+    if r["date"] > TODAY:                  # 출간일 전: 날짜를 알려 준다
+        label = ctx.t["release_on"].format(m=r["date"].month, d=r["date"].day)
+    return f'<span class="btn{b} is-disabled" aria-disabled="true">{label}</span>'
 
 
 def sample_button(ctx, r, block=False):
@@ -691,6 +698,7 @@ def pub_spec(ctx, reports):
         rows.append((S["samples"][0], f'{esc(S["samples"][1])} · <a href="{ctx.url("samples/")}">{t["samples_link"]}</a>'))
     rows.append((S["data"][0], f'{esc(S["data"][1])} · <a href="mailto:{mail}">{mail}</a>'))
     rows.append((S["contact"][0], f'{esc(S["contact"][1])} · <a href="mailto:{mail}">{mail}</a>'))
+    rows.append((S["b2b"][0], esc(S["b2b"][1])))
     body = "".join(f"<dt>{esc(k)}</dt><dd>{v}</dd>" for k, v in rows)
     return f'<dl class="spec">{body}</dl>'
 
@@ -856,7 +864,8 @@ def render_report(ctx, r, has_alt):
         info.append((tt["i_price"], price))
     rows = "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in info)
     clauses.append(clause(tt["info_title"], f'<dl class="spec">{rows}</dl>'))
-    b2b = esc(mailto(site, tt["b2b_subject"] + " - " + issue_no(r)))
+    report_name = f"{issue_no(r)} {lo['title']}"
+    data_mail = esc(mailto(site, tt["data_subject"].format(report=report_name), tt["data_body"].format(report=report_name)))
     series = f'<p class="series">{esc(r["series"])}</p>' if r.get("series") else ""
     body = f"""<article class="wrap report">
   <p class="crumbs"><a href="{ctx.url('reports/')}">{tt['archive_title']}</a> / {num(issue_no(r))}</p>
@@ -877,7 +886,7 @@ def render_report(ctx, r, has_alt):
       <div class="order-price">{price_html(ctx, r, big=True)}</div>
       <div class="order-buttons">{buy_buttons(ctx, r, block=True)}{sample_button(ctx, r, block=True)}</div>
       <dl class="order-terms">{terms_html}</dl>
-      <p class="order-links"><a href="{b2b}">{tt['b2b_title']}</a></p>
+      <p class="order-links">{'' if r.get('upcoming') else f'<a href="{data_mail}">{tt["data_link"]}</a>'}</p>
     </aside>
   </div>
 </article>"""
