@@ -1,12 +1,12 @@
 # LIMEN RESEARCH 첫 번째 보고서. 원본 PDF는 저장소에 넣지 않는다: 표지·그림 미리보기·무료 미리보기만 공개.
 
 issue = 1                      # 사이트에서만 쓰는 순서 번호 → "No. 001"
-date = 2026-11-01              # 교보문고 출간일 (책 판권면 초판 1쇄는 2026-10-27)
+date = 2026-10-27              # 발행일 (판권면 초판 1쇄, 교보문고 상품 페이지 표기와 같음)
 sectors = ["mobility"]
 pages = 606
 language = "ko"
 price_krw = 290000             # 교보문고 판매가 (원)
-buy_url = ""                   # 교보문고 상품 페이지 주소. 출간(11/1) 뒤 상품 주소가 나오면 넣는다. 비우면 버튼이 "판매 준비 중"
+buy_url = "https://product.kyobobook.co.kr/detail/S000221875429"   # 교보문고 상품 페이지 (POD)
 sample = "2026-10-27-sdv-to-aidv-preview.pdf"   # 미리보기 35쪽: 머리말·차례·요약·1장 앞부분
 cover_image = "2026-10-27-sdv-to-aidv.jpg"     # 앞표지
 series = "LIMEN MOBILITY REPORT 2026"
