@@ -11,7 +11,7 @@
 - 표지: 기본은 CSS로 그린다. 실제 PDF 첫 장 이미지를 쓰려면 `content/covers/` 에 넣고 보고서에 `cover_image = "파일명.png"`.
 - 디자인 규칙: 글꼴은 IBM Plex Sans KR 하나. 강조색(`--signal`, 청록)은 문턱선·'최신 리포트'·초점 표시에만 쓴다. 카드·그림자·둥근 모서리·장식용 괘선을 넣지 않는다 (선은 표에만).
 - 로고: `static/brand/` 의 파일을 그대로 쓴다 (다시 그리거나 늘리지 않는다, 사용 규칙은 `static/brand/README.md`). 사이트 머리글·바닥은 `build.py` 의 `brand_svg()` 가 `logo-header.svg`(32px)·`logo-header-mobile.svg`(28px)를 인라인으로 넣고, 막대 색은 `--signal` 을 따른다. 로고 PNG·파비콘 PNG·`og.png` 를 다시 만들 때는 SVG에서 렌더링한다.
-- 보고서는 정기 발행이 아니다(분기에 2~3권, 이슈가 있을 때). '주간'·'호' 같은 말을 쓰지 않는다. `issue` 가 가장 큰 발행된(출간 예정 아님) 보고서가 홈의 '최신 리포트'가 된다.
+- 보고서는 정기 발행이 아니다(분기에 2~3권, 이슈가 있을 때). '주간'·'호' 같은 말을 쓰지 않는다. `issue` 가 가장 큰 발행된(출간 예정 아님) 보고서가 홈의 '최신 리포트'가 된다. 홈 순서는 최신 리포트 → 판매 중인 리포트(나머지 발행본) → 출간 예정 → 다가오는 문턱 → 구매·문의. 판매가 먼저다. '지난' 같은 말은 쓰지 않는다.
 - 상세 페이지 선택 항목(예시: `content/reports/2026-10-27-sdv-to-aidv.toml`): `series`, `[ko]` 의 `quote`·`quote_source`, `numbers`(값·단위·이름), `features`(제목·설명), `figures`(`content/figures/` 이미지·제목·출처), `toc` 의 `# ` 줄(부·장 제목), `for_whom`, `author`, `info`(추가 정보 행).
 - 원본 PDF는 이 세션의 임시 폴더에서만 다룬다 (구글 드라이브 커넥터로 받기). 저장소에는 표지(`content/covers/`), 그림 미리보기(`content/figures/`), 무료 샘플(`content/samples/`)만 넣는다.
 - `languages` 에 `en` 이 없으면 메뉴의 EN 버튼이 영문 안내 페이지(`/en/`)로 간다.
