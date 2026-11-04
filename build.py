@@ -40,7 +40,7 @@ T = {
         "nav_about": "소개",
         "switch_label": "EN",
         "latest": "최신 리포트",
-        "recent": "지난 리포트",
+        "recent": "판매 중인 리포트",
         "view_all": "전체 목록 {n}권",
         "col_cover": "표지",
         "col_report": "보고서",
@@ -126,7 +126,7 @@ T = {
         "nav_about": "About",
         "switch_label": "한국어",
         "latest": "Latest report",
-        "recent": "Past reports",
+        "recent": "Available now",
         "view_all": "All {n} reports",
         "col_cover": "Cover",
         "col_report": "Report",
@@ -756,7 +756,7 @@ def render_home(ctx, reports):
   <header class="section-head"><h2 id="spec-h">{tt['spec_title']}</h2></header>
   {pub_spec(ctx, mine + soon)}
 </section>"""
-    body = f"{lead}\n{upcoming_html}\n{past}\n{ths}\n{facts}"
+    body = f"{lead}\n{past}\n{upcoming_html}\n{ths}\n{facts}"   # 최신 → 판매 중 → 출간 예정
     return page(ctx, "", body, alt_path="")
 
 
