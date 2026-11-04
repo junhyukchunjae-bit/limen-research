@@ -2,7 +2,7 @@
 
 issue = 3
 upcoming = true
-expected = "2026-Q4"             # 출간 예정 시기 (YYYY-Qn, YYYY-MM, YYYY-MM-DD)
+expected = "2026-11"             # 출간 예정 시기 (YYYY-Qn, YYYY-MM, YYYY-MM-DD)
 sectors = ["robotics"]
 language = "ko"
 cover_image = "2026-q4-humanoid-deployment.jpg"
