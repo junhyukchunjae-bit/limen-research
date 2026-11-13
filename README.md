@@ -53,7 +53,7 @@ build.py             content/ 를 읽어 _site/ 에 사이트를 만드는 프�
 ## 출간 예정 보고서
 
 아직 나오지 않은 보고서는 파일에 `upcoming = true` 를 넣고 `expected` 에 출간 예정 시기를 적습니다 (예: `expected = "2026-Q4"` → '2026년 4분기', `"2027-03"`, `"2027-03-15"`).
-소개 글(`body`)이 없으면 목록과 홈에만 나오고 상세 페이지는 만들지 않습니다. 예: `content/reports/2026-q4-humanoid-deployment.toml`
+소개 글(`body`)이 없으면 목록과 홈에만 나오고 상세 페이지는 만들지 않습니다. 예: `content/reports/2027-q1-chinese-automakers-abroad.toml`
 
 - 홈의 **출간 예정** 칸과 보고서 목록에 '출간 예정' 표시와 함께 나옵니다.
 - 소개 페이지와 샘플은 미리 보여 주고, 구매 버튼은 잠깁니다.
