@@ -1,7 +1,7 @@
 # 출간 예정 보고서. 교보문고에 올라가면 upcoming 줄을 지우고 date(발행일)·pages·price_krw·buy_url·sample 을 채운다.
 # 라인업의 가칭 『모빌리티 아웃룩 2027』 자리를 이 책이 대신한다 (2026-11-05 결정).
 
-issue = 4
+issue = 6
 upcoming = true
 expected = "2026-12"             # 출간 예정 시기 (12월 초)
 sectors = ["mobility"]
