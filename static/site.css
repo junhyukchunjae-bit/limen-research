@@ -189,6 +189,7 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .entry-pages, .entry-price { padding-top: 1px; text-align: right; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
 .entry-price .price-main { font-size: 14px; font-weight: 400; }
+.entry-price .price { align-items: flex-end; }
 .entry-sample { grid-template-columns: 88px minmax(0, 1fr); }
 .entry-sample .btn-row { margin-top: 16px; }
 .entry-sample .more-link { font-size: 15px; }
@@ -396,6 +397,7 @@ a:hover { text-decoration-thickness: 2px; }
   .entry-sum { font-size: 14px; -webkit-line-clamp: 3; }
   .entry-pages { display: none; }
   .entry-price { grid-column: 2; text-align: left; }
+  .entry-price .price { align-items: flex-start; }
   .entry-sample .btn-row { display: grid; }
   .thresholds-home .th { grid-template-columns: 76px minmax(0, 1fr); row-gap: 2px; }
   .thresholds-home .th-sector { grid-column: 2; grid-row: 1; }

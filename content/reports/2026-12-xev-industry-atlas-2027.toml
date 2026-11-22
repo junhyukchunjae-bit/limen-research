@@ -1,15 +1,16 @@
-# 출간 예정 보고서. 교보문고에 올라가면 upcoming 줄을 지우고 date(발행일)·pages·price_krw·buy_url·sample 을 채운다.
-# 라인업의 가칭 『모빌리티 아웃룩 2027』 자리를 이 책이 대신한다 (2026-11-05 결정).
+# 출간 예정 보고서. 교보문고 POD(퍼플) 등록 신청 완료(2026-11-22), 2차 개정 중.
+# 교보문고에 올라가면 upcoming·expected 줄을 지우고 date(발행일)·pages·buy_url·sample 을 채운다.
 
 issue = 6
 upcoming = true
-expected = "2026-12"             # 출간 예정 시기 (12월 초)
+expected = "2026-12"             # 출간 예정 시기
 sectors = ["mobility"]
 language = "ko"
-cover_image = "2026-12-xev-industry-atlas-2027.jpg"   # 앞표지 가안 B (배터리 모듈)
+price_krw = 290000             # 교보문고 판매가 (원, 등록 신청가)
+cover_image = "2026-12-xev-industry-atlas-2027.jpg"   # 앞표지 (퍼플 등록본)
 series = "LIMEN MOBILITY REPORT 2027"
 
 [ko]
-title = "xEV 산업 지도 2027 (가칭)"
-subtitle = "전동화 수요·정책·파워트레인·충전의 결정을 셀 주문(GWh·화학·지역)으로 읽는다 — 완성차 20곳 전동화 계획 채점부, 셀 공장 일람, 2027 달력"
-summary = "2027년에 바뀔 판을 축으로 전기차 수요·정책·파워트레인 믹스·충전을 정리하고, 완성차의 결정을 배터리 셀 주문(GWh·화학·지역)으로 환산합니다. 완성차 20곳 전동화 계획 채점부와 2027 달력을 담습니다."
+title = "xEV 산업 지도 2027"
+subtitle = "전동화 수요, 정책, 파워트레인, 충전의 결정을 셀 주문(GWh, 화학, 지역)으로 읽는다"
+summary = "6개 언어 출처와 공시, 완성차 20곳 전동화 약속 평가표, 중국 본토 밖 셀 공장 34곳 일람으로 2027년의 판을 셌습니다. 2027년 확정 날짜 21건의 달력과 2030년 셀 수요 환산표를 담습니다."

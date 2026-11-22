@@ -1,0 +1,14 @@
+# 출간 예정 보고서. e퍼플(전자책 PDF) 접수 대기(2026-11-22). 퍼플 종이책은 아직 등록 안 함.
+# 나오면 upcoming·expected 줄을 지우고 date·pages·ebook_url(또는 buy_url)·sample·cover_image 를 채운다.
+
+issue = 8
+upcoming = true
+expected = "2027-Q1"             # 출간 예정 시기 (e퍼플 안내: 접수부터 출간까지 약 6–9주)
+sectors = ["mobility", "electronics"]
+language = "ko"
+format = "전자책(PDF)"
+series = "LIMEN RESEARCH 특별판"
+
+[ko]
+title = "차량용 디스플레이 2027"
+summary = "차량용 디스플레이를 다루는 LIMEN RESEARCH 특별판입니다. PDF 전자책으로 먼저 냅니다."

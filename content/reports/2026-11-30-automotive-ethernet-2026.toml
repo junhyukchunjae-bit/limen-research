@@ -1,5 +1,4 @@
 # LIMEN RESEARCH 특별판. 원본 PDF는 저장소에 넣지 않는다: 표지·그림 미리보기·무료 미리보기만 공개.
-# 교보문고 POD(퍼플) 등록 완료, 상품 페이지가 열리면 buy_url 에 주소를 넣는다.
 
 issue = 5                      # 사이트에서만 쓰는 순서 번호 → "No. 005"
 date = 2026-11-30              # 발행일 (판권면·교보문고 출간일)
@@ -7,7 +6,9 @@ sectors = ["mobility", "electronics"]
 pages = 144
 language = "ko"
 price_krw = 39000              # 교보문고 판매가 (원)
-# buy_url = ""                 # 교보문고 상품 페이지 (POD), 나오면 채운다
+buy_url = "https://product.kyobobook.co.kr/detail/S000222019191"   # 교보문고 상품 페이지 (POD)
+ebook_price_krw = 19000        # 전자책(PDF) 판매가 (e퍼플, 검수 중)
+# ebook_url = ""               # 전자책(PDF) 상품 페이지, 검수·계약 끝나면 채운다
 sample = "2026-11-30-automotive-ethernet-2026-preview.pdf"   # 미리보기 25쪽: 머리말·차례·요약·1장 앞부분
 cover_image = "2026-11-30-automotive-ethernet-2026.jpg"     # 앞표지
 series = "LIMEN RESEARCH 특별판"
