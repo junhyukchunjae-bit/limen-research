@@ -1,5 +1,4 @@
 # LIMEN RESEARCH 특별판. 원본 PDF는 저장소에 넣지 않는다: 표지·그림 미리보기·무료 미리보기만 공개.
-# 교보문고 POD(퍼플) 등록 완료, 상품 페이지가 열리면 buy_url 에 주소를 넣는다.
 
 issue = 4                      # 사이트에서만 쓰는 순서 번호 → "No. 004"
 date = 2026-11-19              # 발행일 (판권면·교보문고 출간일)
@@ -7,7 +6,7 @@ sectors = ["cross"]
 pages = 292
 language = "ko"
 price_krw = 49000              # 교보문고 판매가 (원)
-# buy_url = ""                 # 교보문고 상품 페이지 (POD), 나오면 채운다
+buy_url = "https://product.kyobobook.co.kr/detail/S000222019190"   # 교보문고 상품 페이지 (POD)
 sample = "2026-11-19-ces-2027-preview-preview.pdf"   # 미리보기 31쪽: 머리말·차례·요약·1장 앞부분
 cover_image = "2026-11-19-ces-2027-preview.jpg"     # 앞표지
 series = "LIMEN RESEARCH 특별판"
