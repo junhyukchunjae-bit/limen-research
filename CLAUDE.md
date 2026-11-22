@@ -3,7 +3,7 @@
 - `build.py` 가 `content/` 를 읽어 `_site/` 에 정적 사이트를 만든다. 외부 패키지 없이 Python 3.11+ 표준 라이브러리만 쓴다.
 - 보고서 추가: `content/reports/YYYY-MM-DD-slug.toml`. 기존 파일 형식을 따르고, `issue` 는 사이트에서만 쓰는 순서 번호(이전 보고서 +1, 출간 예정 포함), `sectors` 는 `content/site.toml` 의 key 만 쓴다.
 - `content/samples/` 에는 무료 샘플만 둔다. 유료 보고서 원본 PDF는 절대 커밋하지 않는다 (공개 저장소).
-- 사이트는 소개·샘플·구매 링크만 한다. 결제를 받지 않는다. 판매는 교보문고: 보고서의 `buy_url` 에 상품 주소, `price_krw` 에 교보문고 판매가. 판매처 이름은 `site.toml` 의 `store`. 판매 형태는 주문형 종이책(POD)이 기본이고, 보고서마다 다르면 `format` 으로 적는다 (예: `format = "전자책(PDF)"`).
+- 사이트는 소개·샘플·구매 링크만 한다. 결제를 받지 않는다. 판매는 교보문고: 보고서의 `buy_url` 에 상품 주소, `price_krw` 에 교보문고 판매가. 판매처 이름은 `site.toml` 의 `store`. 판매 형태는 주문형 종이책(POD)이 기본이고, 보고서마다 다르면 `format` 으로 적는다 (예: `format = "전자책(PDF)"`). e퍼플 전자책(PDF)도 내는 책은 `ebook_price_krw`(전자책 값)와 `ebook_url`(전자책 상품 주소)을 넣는다. 둘 중 하나라도 있으면 '종이책 구매'·'전자책(PDF) 구매' 버튼 두 개가 나오고, `ebook_url` 이 없으면 전자책 버튼은 '준비 중'으로 잠긴다.
 - 출간 예정 보고서: `upcoming = true` 와 `expected = "2026-Q4"`(YYYY-Qn·YYYY-MM·YYYY-MM-DD). 파일 이름은 `YYYY-qN-slug.toml`. 홈 '출간 예정'에 나오고 구매 버튼은 잠긴다. `[ko].body` 가 없으면 상세 페이지 없이 목록에만 나온다. 제목이 확정 전이면 '(가칭)'을 붙인다.
 - 보고서 파일에 `unlisted = true` 를 넣으면 페이지는 만들어지지만 목록·홈·샘플·사이트맵에서 빠진다 (공개 전 미리보기용). `draft = true` 는 아예 만들지 않는다.
 - 모든 실제 보고서에는 무료 샘플(`sample`)을 붙인다. 샘플 PDF 제공이 사이트의 핵심 기능이다.

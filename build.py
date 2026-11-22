@@ -50,7 +50,7 @@ T = {
         "col_count": "편수",
         "spec_title": "구매·문의",
         "spec_rows": {
-            "store": ("구매", "{store}에서 주문형 종이책(POD)으로 판매합니다. 결제·배송·환불은 {store}가 처리합니다"),
+            "store": ("구매", "{store}에서 주문형 종이책(POD)으로 판매하고, 일부 보고서는 PDF 전자책으로도 냅니다. 결제·배송·환불은 {store}가 처리합니다"),
             "samples": ("미리보기", "보고서마다 앞부분을 PDF로 공개합니다"),
             "data": ("데이터 팩", "책에 실린 그림·표의 데이터를 드립니다. 교보문고 구매 내역 화면을 캡처해 이메일로 보내 주세요"),
             "contact": ("문의", "책 내용 문의와 오류 제보"),
@@ -72,6 +72,11 @@ T = {
         "lang_en": "영어",
         "buy": "{store}에서 구매",
         "buy_soon": "판매 준비 중",
+        "buy_print": "종이책 구매",
+        "buy_ebook": "전자책(PDF) 구매",
+        "ebook_soon": "전자책(PDF) 준비 중",
+        "ebook_label": "전자책(PDF)",
+        "format_ebook": "전자책(PDF)",
         "release_on": "{m}월 {d}일 출간",
         "upcoming": "출간 예정",
         "upcoming_title": "출간 예정",
@@ -136,7 +141,7 @@ T = {
         "col_count": "Issues",
         "spec_title": "Buying and contact",
         "spec_rows": {
-            "store": ("Where to buy", "Print-on-demand books sold through {store}, which handles payment, delivery and refunds"),
+            "store": ("Where to buy", "Print-on-demand books sold through {store}, some also as PDF e-books. {store} handles payment, delivery and refunds"),
             "samples": ("Previews", "The opening pages of every report as a free PDF"),
             "data": ("Data pack", "Data behind the book's figures and tables, for buyers. Email us a screenshot of your Kyobo order"),
             "contact": ("Contact", "Questions about the books and error reports"),
@@ -158,6 +163,11 @@ T = {
         "lang_en": "English",
         "buy": "Buy at {store}",
         "buy_soon": "Coming soon",
+        "buy_print": "Buy print",
+        "buy_ebook": "Buy PDF e-book",
+        "ebook_soon": "PDF e-book coming",
+        "ebook_label": "PDF e-book",
+        "format_ebook": "PDF e-book",
         "release_on": "Out {m}/{d}",
         "upcoming": "Upcoming",
         "upcoming_title": "Upcoming",
@@ -351,8 +361,24 @@ def price_html(ctx, r, big=False):
         main = f"₩{r['price_krw']:,}"
     else:
         return ""
+    ref = ""
+    if r.get("ebook_price_krw"):          # 전자책(PDF)도 내는 보고서: 종이책 값 아래에 전자책 값
+        label = ctx.t["ebook_label"] if big else "PDF"   # 목록 칸은 좁아서 짧게
+        ref = f'<span class="price-ref">{label} ₩{r["ebook_price_krw"]:,}</span>'
     cls = "price price-big" if big else "price"
-    return f'<span class="{cls}"><span class="price-main">{main}</span></span>'
+    return f'<span class="{cls}"><span class="price-main">{main}</span>{ref}</span>'
+
+
+def has_ebook(r):
+    """전자책(PDF)도 내는 보고서인가 (e퍼플 등록본). 주소가 아직 없어도 값이나 ebook = true 가 있으면 버튼을 잠근 채 보여 준다."""
+    return bool(r.get("ebook_url") or r.get("ebook_price_krw") or r.get("ebook"))
+
+
+def format_text(ctx, r):
+    if r.get("format"):
+        return r["format"]
+    f = ctx.t["format_default"]
+    return f + " · " + ctx.t["format_ebook"] if has_ebook(r) else f
 
 
 def store(ctx):
@@ -491,13 +517,21 @@ def buy_buttons(ctx, r, block=False):
     b = " btn-block" if block else ""
     if r.get("upcoming"):
         return f'<span class="btn{b} is-disabled" aria-disabled="true">{ctx.t["upcoming"]}</span>'
+    two = has_ebook(r)                      # 종이책 + 전자책(PDF) 두 버튼
     if r.get("buy_url"):
-        label = ctx.t["buy"].format(store=esc(store(ctx)))
-        return f'<a class="btn{b}" href="{esc(r["buy_url"])}" target="_blank" rel="noopener">{label}</a>'
-    label = ctx.t["buy_soon"]
-    if r["date"] > TODAY:                  # 출간일 전: 날짜를 알려 준다
-        label = ctx.t["release_on"].format(m=r["date"].month, d=r["date"].day)
-    return f'<span class="btn{b} is-disabled" aria-disabled="true">{label}</span>'
+        label = ctx.t["buy_print"] if two else ctx.t["buy"].format(store=esc(store(ctx)))
+        out = f'<a class="btn{b}" href="{esc(r["buy_url"])}" target="_blank" rel="noopener">{label}</a>'
+    else:
+        label = ctx.t["buy_soon"]
+        if r["date"] > TODAY:              # 출간일 전: 날짜를 알려 준다
+            label = ctx.t["release_on"].format(m=r["date"].month, d=r["date"].day)
+        out = f'<span class="btn{b} is-disabled" aria-disabled="true">{label}</span>'
+    if two:
+        if r.get("ebook_url"):
+            out += f'<a class="btn{b}" href="{esc(r["ebook_url"])}" target="_blank" rel="noopener">{ctx.t["buy_ebook"]}</a>'
+        else:
+            out += f'<span class="btn{b} is-disabled" aria-disabled="true">{ctx.t["ebook_soon"]}</span>'
+    return out
 
 
 def sample_button(ctx, r, block=False):
@@ -808,7 +842,7 @@ def render_report(ctx, r, has_alt):
     facts = [(date_label, num(when(ctx, r)))]
     if r.get("pages"):
         facts.append((tt["f_length"], esc(tt["pages_unit"].format(n=r["pages"]))))
-    facts.append((tt["f_format"], esc(r.get("format") or tt["format_default"]) + " · " + esc(tt["lang_" + r.get("language", "ko")])))
+    facts.append((tt["f_format"], esc(format_text(ctx, r)) + " · " + esc(tt["lang_" + r.get("language", "ko")])))
     facts.append((tt["f_sector"], esc(sectors_text(ctx, r))))
     facts_html = "".join(f"<dt>{esc(k)}</dt><dd>{v}</dd>" for k, v in facts)
     terms_html = "".join(f"<dt>{esc(k)}</dt><dd>{esc(v.format(store=store(ctx)))}</dd>" for k, v in tt["order_terms"])
@@ -856,7 +890,7 @@ def render_report(ctx, r, has_alt):
     info.append((date_label if r.get("upcoming") else tt["i_date"], num(when(ctx, r))))
     if r.get("pages"):
         info.append((tt["f_length"], esc(tt["pages_unit"].format(n=r["pages"]))))
-    info.append((tt["f_format"], esc(r.get("format") or tt["format_default"]) + " · " + esc(tt["lang_" + r.get("language", "ko")])))
+    info.append((tt["f_format"], esc(format_text(ctx, r)) + " · " + esc(tt["lang_" + r.get("language", "ko")])))
     info.append((tt["f_sector"], esc(sectors_text(ctx, r))))
     info += [(esc(k), esc(v)) for k, v in lo.get("info", [])]
     price = price_html(ctx, r)
