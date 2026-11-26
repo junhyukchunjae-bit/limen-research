@@ -1,15 +1,14 @@
-# 출간 예정 보고서. 교보문고 POD(퍼플) 등록 신청 완료(2026-11-22). 원본 PDF는 저장소에 넣지 않는다.
-# 교보문고에 올라가면 upcoming·expected 줄을 지우고 date = 2026-12-28 과 buy_url 을 넣고, 파일 이름을 2026-12-28-hmi-ux-2035.toml 로 바꾼다.
+# LIMEN MOBILITY REPORT 2027. 원본 PDF는 저장소에 넣지 않는다: 표지·그림 미리보기·무료 미리보기만 공개.
 
 issue = 7
-upcoming = true
-expected = "2026-12-28"          # 판권면 발행일
+date = 2026-11-28              # 발행일 (판권면·교보문고 출간일)
 sectors = ["mobility", "electronics"]
 pages = 412
 language = "ko"
-price_krw = 290000             # 교보문고 판매가 (원, 등록 신청가)
-sample = "2026-12-28-hmi-ux-2035-preview.pdf"   # 미리보기 33쪽: 머리말·차례·요약·1장 앞부분
-cover_image = "2026-12-28-hmi-ux-2035.jpg"     # 앞표지
+price_krw = 290000             # 교보문고 판매가 (원)
+buy_url = "https://product.kyobobook.co.kr/detail/S000222073218"   # 교보문고 상품 페이지 (POD)
+sample = "2026-11-28-hmi-ux-2035-preview.pdf"   # 미리보기 33쪽: 머리말·차례·요약·1장 앞부분
+cover_image = "2026-11-28-hmi-ux-2035.jpg"     # 앞표지
 series = "LIMEN MOBILITY REPORT 2027"
 
 [ko]
@@ -52,8 +51,8 @@ key_findings = [
   "2015–2022년에 양산 연도를 밝힌 발표 **11건 가운데 1건**만 약속한 해를 지켰고, 지연의 중앙값은 **적어도 5년**",
 ]
 figures = [
-  { image = "2026-12-28-hmi-ux-2035-s1.jpg", title = "그림 S-1. 2035년 세계 차량 HMI 시장 시나리오, 품목 여섯 묶음과 기관 전망 (억 위안)", note = "출처: LIMEN RESEARCH(5.4 시나리오 모형, 2026.11); Global Market Insights(2026); Fortune Business Insights(2026); Persistence Market Research(2026); 데사이 SV 홍콩 상장 신청서(2026.04); Grand View Research(2024.10)를 바탕으로 LIMEN RESEARCH 계산" },
-  { image = "2026-12-28-hmi-ux-2035-s2.jpg", title = "그림 S-2. 지역별 차량 HMI 규제와 평가 달력 (2022–2029, 문서 66건의 날짜 55개)", note = "출처: LIMEN RESEARCH, 규정 원문, UN 수탁 기록, 정부 공고, 평가 기관 발표를 바탕으로 정리(2026.11)" },
+  { image = "2026-11-28-hmi-ux-2035-s1.jpg", title = "그림 S-1. 2035년 세계 차량 HMI 시장 시나리오, 품목 여섯 묶음과 기관 전망 (억 위안)", note = "출처: LIMEN RESEARCH(5.4 시나리오 모형, 2026.11); Global Market Insights(2026); Fortune Business Insights(2026); Persistence Market Research(2026); 데사이 SV 홍콩 상장 신청서(2026.04); Grand View Research(2024.10)를 바탕으로 LIMEN RESEARCH 계산" },
+  { image = "2026-11-28-hmi-ux-2035-s2.jpg", title = "그림 S-2. 지역별 차량 HMI 규제와 평가 달력 (2022–2029, 문서 66건의 날짜 55개)", note = "출처: LIMEN RESEARCH, 규정 원문, UN 수탁 기록, 정부 공고, 평가 기관 발표를 바탕으로 정리(2026.11)" },
 ]
 thresholds = [
   "2027-01-01 | 중국 문 손잡이 강제 표준과 L2 운전 보조 운전자 감시 강제 표준 시행",
